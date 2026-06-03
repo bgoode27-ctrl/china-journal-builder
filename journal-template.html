@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+            @bottom-right {
+                content: counter(page) " of " counter(pages);
+                font-size: 9pt;
+                color: #666;
+            }
+        }
+
+        :root {
+            --primary: #8B4513;
+            --accent: #D2691E;
+            --bg: #FFFBF0;
+            --text: #2C2C2C;
+            --caption: #666;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5em;
+            margin-bottom: 1.5em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: var(--primary);
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.3em;
+            margin-top: 2em;
+            page-break-before: always;
+        }
+
+        h2:first-of-type {
+            page-break-before: avoid;
+        }
+
+        p {
+            margin: 1em 0;
+            text-align: justify;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 1.5em 0;
+        }
+
+        .photo {
+            break-inside: avoid;
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .photo.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .photo.full-width img {
+            max-height: 500px;
+            object-fit: cover;
+        }
+
+        figcaption {
+            font-style: italic;
+            color: var(--caption);
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 0.5em;
+        }
+
+        .video-container {
+            text-align: center;
+            margin: 2em 0;
+            padding: 1.5em;
+            background: #f5f5f5;
+            border-radius: 8px;
+            break-inside: avoid;
+        }
+
+        .video-container video {
+            max-width: 100%;
+            max-height: 400px;
+        }
+
+        .video-note {
+            font-style: italic;
+            color: var(--caption);
+            margin-top: 0.5em;
+        }
+
+        .date-header {
+            font-size: 1.1em;
+            color: var(--accent);
+            font-weight: normal;
+        }
+
+        blockquote {
+            border-left: 4px solid var(--accent);
+            margin: 1.5em 0;
+            padding: 0.5em 1em;
+            background: #f9f9f9;
+            font-style: italic;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .video-container {
+                border: 2px dashed #999;
+            }
+        }
+    </style>
+</head>
+<body>
+    {{ content|safe }}
+</body>
+</html>
