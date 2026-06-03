@@ -46,8 +46,9 @@ def scan_media_files():
                     'date': date_str,
                     'timestamp': f"{year}-{month:02d}-{day:02d} {match.group(4)[:2]}:{match.group(4)[2:4]}"
                 })
-        elif f.suffix.lower() == '.mp4':
-            match = re.search(r'VID_(\d{4})(\d{2})(\d{2})_(\d{6})', f.name)
+        elif f.suffix.lower() in ('.mp4', '.mov'):
+            # Match both VID_ and IMG_ prefixes (iPhone uses IMG_ for videos too)
+            match = re.search(r'(?:VID|IMG)_(\d{4})(\d{2})(\d{2})_(\d{6})', f.name)
             if match:
                 year, month, day = int(match.group(1)), int(match.group(2)), int(match.group(3))
                 date_str = f"{year}-{month:02d}-{day:02d}"
