@@ -138,8 +138,122 @@
             }
         }
     </style>
-</head>
+
+    <style>
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            font-family: Georgia, 'Times New Roman', serif;
+            padding: 20px;
+        }
+        .login-box {
+            background: #FFFBF0;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-box h1 {
+            color: #8B4513;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #D2691E;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: Georgia, serif;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: #8B4513;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .login-box button:hover {
+            background: #D2691E;
+        }
+        .error-message {
+            color: #d32f2f;
+            margin-top: 10px;
+            font-size: 0.9em;
+            min-height: 20px;
+        }
+    </style>
+    <script>
+        const CORRECT_PASSWORD='fubaoshu';
+        const STORAGE_KEY = 'china_journal_access';
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('error-message');
+            const password = input.value;
+
+            if (password === CORRECT_PASSWORD) {
+                localStorage.setItem(STORAGE_KEY, 'granted');
+                showJournal();
+            } else {
+                errorMsg.textContent = 'Incorrect password. Please try again.';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function showJournal() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('journal-content').style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('password-input');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            if (localStorage.getItem(STORAGE_KEY) === 'granted') {
+                showJournal();
+            }
+        });
+    </script>
+    </head>
 <body>
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <h1>🔒 China Trip 2026</h1>
+            <p>Enter password to view the journal</p>
+            <input type="password" id="password-input" placeholder="Password" autofocus>
+            <button onclick="checkPassword()">Enter</button>
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="journal-content" style="display: none;">
+    
     <p>---</p>
 <p>title: Journal 1 — Phoenix to Hong Kong</p>
 <p>created: 2026-06-02</p>
@@ -1120,5 +1234,7 @@
 <p>| Money spent | |</p>
 <p>| Meals eaten | |</p>
 <p>| Photos taken | |</p>
+
+    </div>
 </body>
 </html>
