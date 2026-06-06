@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "build/china-journal.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/build/china-journal.html"
+    },
+    {
+      "src": "/pdf",
+      "dest": "/build/china-journal.pdf"
+    }
+  ]
+}
