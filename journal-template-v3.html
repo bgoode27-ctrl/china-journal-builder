@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+            @bottom-right {
+                content: counter(page) " / " counter(pages);
+                font-size: 9pt;
+                color: #8c3b2a;
+            }
+        }
+
+        :root {
+            --cinnabar: #B92B27;
+            --imperial-red: #C23B2B;
+            --gold: #C8A04D;
+            --parchment: #F9F3E8;
+            --ink: #2B2B2B;
+            --ink-light: #5A4D41;
+            --bamboo: #7A8B4A;
+            --jade: #3E8E7E;
+            --shadow: rgba(43, 43, 43, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', Georgia, 'Times New Roman', serif;
+            line-height: 1.75;
+            color: var(--ink);
+            background: var(--parchment) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L32 5L37 3L35 8L40 10L35 12L37 17L32 15L30 20L28 15L23 17L25 12L20 10L25 8L23 3L28 5Z' fill='%23c8a04d' fill-opacity='0.05'/%3E%3C/svg%3E");
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Password overlay */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #5D1A1A 0%, #8E2B2B 50%, #B92B27 100%);
+            font-family: 'Noto Serif SC', Georgia, serif;
+            padding: 20px;
+        }
+        .login-box {
+            background: var(--parchment);
+            padding: 48px 40px;
+            border-radius: 4px;
+            box-shadow: 0 12px 50px rgba(0,0,0,0.35);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            border: 3px double var(--gold);
+            position: relative;
+        }
+        .login-box::before {
+            content: "福";
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cinnabar);
+            color: var(--gold);
+            width: 56px;
+            height: 56px;
+            line-height: 56px;
+            border-radius: 50%;
+            font-size: 32px;
+            font-family: 'Ma Shan Zheng', cursive;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .login-box h1 {
+            color: var(--cinnabar);
+            margin: 24px 0 12px 0;
+            font-size: 2em;
+            border-bottom: none;
+            font-family: 'Ma Shan Zheng', cursive;
+            letter-spacing: 1px;
+        }
+        .login-box p {
+            color: var(--ink-light);
+            margin-bottom: 28px;
+            font-style: italic;
+            text-align: center;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--gold);
+            border-radius: 4px;
+            font-size: 1.05em;
+            font-family: 'Noto Sans SC', sans-serif;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            background: #fffdf7;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--cinnabar);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: var(--cinnabar);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.15em;
+            font-family: 'Noto Serif SC', serif;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(185,43,39,0.3);
+        }
+        .login-box button:hover {
+            background: #9a221f;
+            transform: translateY(-1px);
+        }
+        .error-message {
+            color: var(--cinnabar);
+            margin-top: 12px;
+            font-size: 0.95em;
+            min-height: 22px;
+        }
+
+        #journal-content {
+            display: none;
+        }
+
+        /* Journal header */
+        .journal-header {
+            text-align: center;
+            padding: 48px 24px 36px;
+            margin-bottom: 36px;
+            border-bottom: 4px double var(--gold);
+            background: linear-gradient(180deg, #fffdf7 0%, var(--parchment) 100%);
+            border-radius: 8px;
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+        .journal-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3.2em;
+            color: var(--cinnabar);
+            margin: 0 0 12px 0;
+            border-bottom: none;
+            text-shadow: 2px 2px 0 rgba(200,160,77,0.2);
+        }
+        .journal-header .subtitle {
+            font-size: 1.2em;
+            color: var(--ink-light);
+            letter-spacing: 2px;
+        }
+        .journal-header .seal {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 6px 16px;
+            border: 2px solid var(--cinnabar);
+            color: var(--cinnabar);
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.1em;
+            border-radius: 4px;
+            transform: rotate(-2deg);
+        }
+
+        /* Entry sections */
+        .journal-entry {
+            background: #fffdf7;
+            padding: 32px;
+            margin-bottom: 32px;
+            border-left: 6px solid var(--cinnabar);
+            border-radius: 6px;
+            box-shadow: 0 4px 16px var(--shadow);
+            page-break-before: always;
+        }
+        .journal-entry:first-of-type {
+            page-break-before: avoid;
+        }
+
+        .journal-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.1em;
+            color: var(--cinnabar);
+            margin: 0 0 14px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .journal-meta {
+            display: flex;
+            gap: 1.2em;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            margin: 0 0 24px 0;
+            background: #f3ecdd;
+            border-radius: 6px;
+            border-left: 4px solid var(--gold);
+            font-size: 0.9em;
+            color: var(--ink-light);
+        }
+
+        h2 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.7em;
+            color: var(--cinnabar);
+            margin-top: 28px;
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        h3 {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.25em;
+            color: var(--bamboo);
+            margin-top: 26px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p {
+            margin: 1em 0;
+            text-align: justify;
+        }
+
+        strong {
+            color: var(--cinnabar);
+            font-weight: 700;
+        }
+
+        /* Photo gallery */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 28px 0;
+        }
+        .photo {
+            margin: 0;
+            break-inside: avoid;
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px var(--shadow);
+            border: 1px solid #e8dec8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .photo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(43,43,43,0.18);
+        }
+        .photo img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 2px;
+            background: #eee;
+        }
+        .photo.full-width {
+            grid-column: 1 / -1;
+        }
+        .photo.full-width img {
+            max-height: 520px;
+            object-fit: contain;
+            width: 100%;
+        }
+        figcaption {
+            font-style: italic;
+            color: var(--ink-light);
+            font-size: 0.92em;
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #d8cbb2;
+        }
+
+        /* Video */
+        .video-container {
+            text-align: center;
+            margin: 28px 0;
+            padding: 18px;
+            background: #f3ecdd;
+            border-radius: 8px;
+            border: 1px solid #e0d4b8;
+            break-inside: avoid;
+        }
+        .video-container video {
+            max-width: 100%;
+            max-height: 460px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        .video-note {
+            font-style: italic;
+            color: var(--ink-light);
+            margin-top: 12px;
+        }
+
+        /* Callouts */
+        .callout {
+            margin: 24px 0;
+            padding: 18px 22px;
+            border-left: 5px solid var(--gold);
+            background: #f7f0e2;
+            border-radius: 6px;
+        }
+        .callout-title {
+            font-weight: 700;
+            color: var(--cinnabar);
+            margin-bottom: 8px;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .callout-content {
+            font-style: italic;
+            color: var(--ink-light);
+        }
+        .callout-tip { border-left-color: var(--jade); background: #eaf6f4; }
+        .callout-warning { border-left-color: #E89A3C; background: #fdf4e8; }
+        .callout-danger { border-left-color: var(--cinnabar); background: #fbeae9; }
+        .callout-note { border-left-color: #5B8DB8; background: #eef5fa; }
+        .callout-info { border-left-color: #8E7DBE; background: #f3f0f9; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 22px 0;
+            background: #fff;
+            box-shadow: 0 3px 12px var(--shadow);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        th {
+            background: var(--cinnabar);
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #ede3d1;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background: #fbf7ee; }
+
+        /* Lists */
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.5em 0;
+        }
+
+        /* Dividers */
+        hr {
+            border: none;
+            border-top: 1px solid var(--gold);
+            margin: 2em 0;
+            opacity: 0.6;
+        }
+        .journal-divider {
+            border-top: 2px dashed var(--gold);
+            margin: 48px 0;
+        }
+
+        /* Footer */
+        .journal-footer {
+            text-align: center;
+            margin-top: 48px;
+            padding: 24px;
+            color: var(--ink-light);
+            font-size: 0.9em;
+            border-top: 2px solid var(--gold);
+        }
+
+        @media print {
+            body { padding: 0; background: #fff; }
+            .login-container { display: none; }
+            #journal-content { display: block; }
+            .journal-entry { box-shadow: none; }
+            .photo:hover { transform: none; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .journal-entry { padding: 18px; }
+            .journal-header h1 { font-size: 2.2em; }
+            .journal-title { font-size: 1.6em; }
+            .photo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <h1>China Trip 2026</h1>
+            <p>Enter password to view the journal</p>
+            <input type="password" id="password-input" placeholder="Password" autofocus>
+            <button onclick="checkPassword()">Enter</button>
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="journal-content">
+        <header class="journal-header">
+            <h1>中国之旅 2026</h1>
+            <div class="subtitle">China Trip 2026 — A Family Journal</div>
+            <div class="seal">福 · 旅 · 记</div>
+        </header>
+
+        {{ content }}
+
+        <footer class="journal-footer">
+            <p>Made with ♥ for the Goode family · 一路平安</p>
+        </footer>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD='fubaoshu';
+        const STORAGE_KEY = 'china_journal_access_v3';
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('error-message');
+            const password = input.value;
+
+            if (password === CORRECT_PASSWORD) {
+                localStorage.setItem(STORAGE_KEY, 'granted');
+                showJournal();
+            } else {
+                errorMsg.textContent = 'Incorrect password. Please try again.';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function showJournal() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('journal-content').style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('password-input');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+            if (localStorage.getItem(STORAGE_KEY) === 'granted') {
+                showJournal();
+            }
+        });
+    </script>
+</body>
+</html>

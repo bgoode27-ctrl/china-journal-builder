@@ -4,55 +4,228 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>China Trip 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
     <style>
         @page {
             size: A4;
             margin: 2cm;
             @bottom-right {
-                content: counter(page) " of " counter(pages);
+                content: counter(page) " / " counter(pages);
                 font-size: 9pt;
-                color: #666;
+                color: #8c3b2a;
             }
         }
 
         :root {
-            --primary: #8B4513;
-            --accent: #D2691E;
-            --bg: #FFFBF0;
-            --text: #2C2C2C;
-            --caption: #666;
+            --cinnabar: #B92B27;
+            --imperial-red: #C23B2B;
+            --gold: #C8A04D;
+            --parchment: #F9F3E8;
+            --ink: #2B2B2B;
+            --ink-light: #5A4D41;
+            --bamboo: #7A8B4A;
+            --jade: #3E8E7E;
+            --shadow: rgba(43, 43, 43, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Georgia, 'Times New Roman', serif;
-            line-height: 1.7;
-            color: var(--text);
-            background: var(--bg);
-            max-width: 800px;
+            font-family: 'Noto Serif SC', Georgia, 'Times New Roman', serif;
+            line-height: 1.75;
+            color: var(--ink);
+            background: var(--parchment) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L32 5L37 3L35 8L40 10L35 12L37 17L32 15L30 20L28 15L23 17L25 12L20 10L25 8L23 3L28 5Z' fill='%23c8a04d' fill-opacity='0.05'/%3E%3C/svg%3E");
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px;
         }
 
-        h1 {
-            font-size: 2.5em;
+        /* Password overlay */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #5D1A1A 0%, #8E2B2B 50%, #B92B27 100%);
+            font-family: 'Noto Serif SC', Georgia, serif;
+            padding: 20px;
+        }
+        .login-box {
+            background: var(--parchment);
+            padding: 48px 40px;
+            border-radius: 4px;
+            box-shadow: 0 12px 50px rgba(0,0,0,0.35);
             text-align: center;
-            color: var(--primary);
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 0.5em;
-            margin-bottom: 1.5em;
+            max-width: 420px;
+            width: 100%;
+            border: 3px double var(--gold);
+            position: relative;
+        }
+        .login-box::before {
+            content: "福";
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cinnabar);
+            color: var(--gold);
+            width: 56px;
+            height: 56px;
+            line-height: 56px;
+            border-radius: 50%;
+            font-size: 32px;
+            font-family: 'Ma Shan Zheng', cursive;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .login-box h1 {
+            color: var(--cinnabar);
+            margin: 24px 0 12px 0;
+            font-size: 2em;
+            border-bottom: none;
+            font-family: 'Ma Shan Zheng', cursive;
+            letter-spacing: 1px;
+        }
+        .login-box p {
+            color: var(--ink-light);
+            margin-bottom: 28px;
+            font-style: italic;
+            text-align: center;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--gold);
+            border-radius: 4px;
+            font-size: 1.05em;
+            font-family: 'Noto Sans SC', sans-serif;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            background: #fffdf7;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--cinnabar);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: var(--cinnabar);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.15em;
+            font-family: 'Noto Serif SC', serif;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(185,43,39,0.3);
+        }
+        .login-box button:hover {
+            background: #9a221f;
+            transform: translateY(-1px);
+        }
+        .error-message {
+            color: var(--cinnabar);
+            margin-top: 12px;
+            font-size: 0.95em;
+            min-height: 22px;
+        }
+
+        #journal-content {
+            display: none;
+        }
+
+        /* Journal header */
+        .journal-header {
+            text-align: center;
+            padding: 48px 24px 36px;
+            margin-bottom: 36px;
+            border-bottom: 4px double var(--gold);
+            background: linear-gradient(180deg, #fffdf7 0%, var(--parchment) 100%);
+            border-radius: 8px;
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+        .journal-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3.2em;
+            color: var(--cinnabar);
+            margin: 0 0 12px 0;
+            border-bottom: none;
+            text-shadow: 2px 2px 0 rgba(200,160,77,0.2);
+        }
+        .journal-header .subtitle {
+            font-size: 1.2em;
+            color: var(--ink-light);
+            letter-spacing: 2px;
+        }
+        .journal-header .seal {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 6px 16px;
+            border: 2px solid var(--cinnabar);
+            color: var(--cinnabar);
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.1em;
+            border-radius: 4px;
+            transform: rotate(-2deg);
+        }
+
+        /* Entry sections */
+        .journal-entry {
+            background: #fffdf7;
+            padding: 32px;
+            margin-bottom: 32px;
+            border-left: 6px solid var(--cinnabar);
+            border-radius: 6px;
+            box-shadow: 0 4px 16px var(--shadow);
+            page-break-before: always;
+        }
+        .journal-entry:first-of-type {
+            page-break-before: avoid;
+        }
+
+        .journal-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.1em;
+            color: var(--cinnabar);
+            margin: 0 0 14px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .journal-meta {
+            display: flex;
+            gap: 1.2em;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            margin: 0 0 24px 0;
+            background: #f3ecdd;
+            border-radius: 6px;
+            border-left: 4px solid var(--gold);
+            font-size: 0.9em;
+            color: var(--ink-light);
         }
 
         h2 {
-            font-size: 1.5em;
-            color: var(--primary);
-            border-bottom: 1px solid var(--accent);
-            padding-bottom: 0.3em;
-            margin-top: 2em;
-            page-break-before: always;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.7em;
+            color: var(--cinnabar);
+            margin-top: 28px;
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--gold);
         }
 
-        h2:first-of-type {
-            page-break-before: avoid;
+        h3 {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.25em;
+            color: var(--bamboo);
+            margin-top: 26px;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
 
         p {
@@ -60,212 +233,199 @@
             text-align: justify;
         }
 
+        strong {
+            color: var(--cinnabar);
+            font-weight: 700;
+        }
+
+        /* Photo gallery */
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 1.5em 0;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 28px 0;
         }
-
         .photo {
+            margin: 0;
             break-inside: avoid;
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px var(--shadow);
+            border: 1px solid #e8dec8;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
+        .photo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(43,43,43,0.18);
+        }
         .photo img {
             width: 100%;
             height: auto;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: block;
+            border-radius: 2px;
+            background: #eee;
         }
-
         .photo.full-width {
             grid-column: 1 / -1;
         }
-
         .photo.full-width img {
-            max-height: 500px;
-            object-fit: cover;
+            max-height: 520px;
+            object-fit: contain;
+            width: 100%;
         }
-
         figcaption {
             font-style: italic;
-            color: var(--caption);
-            font-size: 0.9em;
+            color: var(--ink-light);
+            font-size: 0.92em;
             text-align: center;
-            margin-top: 0.5em;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #d8cbb2;
         }
 
+        /* Video */
         .video-container {
             text-align: center;
-            margin: 2em 0;
-            padding: 1.5em;
-            background: #f5f5f5;
+            margin: 28px 0;
+            padding: 18px;
+            background: #f3ecdd;
             border-radius: 8px;
+            border: 1px solid #e0d4b8;
             break-inside: avoid;
         }
-
         .video-container video {
             max-width: 100%;
-            max-height: 400px;
+            max-height: 460px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px var(--shadow);
         }
-
         .video-note {
             font-style: italic;
-            color: var(--caption);
-            margin-top: 0.5em;
+            color: var(--ink-light);
+            margin-top: 12px;
         }
 
-        .date-header {
-            font-size: 1.1em;
-            color: var(--accent);
-            font-weight: normal;
-        }
-
-        blockquote {
-            border-left: 4px solid var(--accent);
-            margin: 1.5em 0;
-            padding: 0.5em 1em;
-            background: #f9f9f9;
-            font-style: italic;
-        }
-
-        /* Journal metadata header */
-        .journal-meta {
-            display: flex;
-            gap: 1.5em;
-            flex-wrap: wrap;
-            padding: 1em;
-            margin: 1em 0 2em 0;
-            background: #f5ebe0;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent);
-            font-size: 0.9em;
-        }
-
-        .meta-item {
-            color: #666;
-        }
-
-        .journal-title {
-            text-align: center;
-            font-size: 2.2em;
-            color: var(--primary);
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 0.5em;
-            margin-bottom: 0.5em;
-        }
-
-        .journal-divider {
-            border: none;
-            border-top: 2px dashed var(--accent);
-            margin: 3em 0;
-        }
-
-        /* Callouts (Obsidian-style) */
+        /* Callouts */
         .callout {
-            margin: 1.5em 0;
-            padding: 1em 1.5em;
-            border-left: 4px solid var(--accent);
-            background: #f9f9f9;
-            border-radius: 4px;
+            margin: 24px 0;
+            padding: 18px 22px;
+            border-left: 5px solid var(--gold);
+            background: #f7f0e2;
+            border-radius: 6px;
         }
-
         .callout-title {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.5em;
+            font-weight: 700;
+            color: var(--cinnabar);
+            margin-bottom: 8px;
+            font-family: 'Noto Sans SC', sans-serif;
         }
-
         .callout-content {
             font-style: italic;
-            color: #444;
+            color: var(--ink-light);
         }
-
-        .callout-tip { border-left-color: #00bfa5; background: #e0f7f4; }
-        .callout-warning { border-left-color: #ff9800; background: #fff3e0; }
-        .callout-danger { border-left-color: #f44336; background: #ffebee; }
-        .callout-note { border-left-color: #2196f3; background: #e3f2fd; }
-        .callout-info { border-left-color: #00bcd4; background: #e0f7fa; }
+        .callout-tip { border-left-color: var(--jade); background: #eaf6f4; }
+        .callout-warning { border-left-color: #E89A3C; background: #fdf4e8; }
+        .callout-danger { border-left-color: var(--cinnabar); background: #fbeae9; }
+        .callout-note { border-left-color: #5B8DB8; background: #eef5fa; }
+        .callout-info { border-left-color: #8E7DBE; background: #f3f0f9; }
 
         /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5em 0;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-radius: 4px;
+            margin: 22px 0;
+            background: #fff;
+            box-shadow: 0 3px 12px var(--shadow);
+            border-radius: 6px;
             overflow: hidden;
         }
-
         th {
-            background: var(--primary);
-            color: white;
-            padding: 0.75em 1em;
+            background: var(--cinnabar);
+            color: #fff;
+            padding: 12px 16px;
             text-align: left;
-            font-weight: bold;
+            font-weight: 600;
+            font-family: 'Noto Sans SC', sans-serif;
         }
-
         td {
-            padding: 0.75em 1em;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 16px;
+            border-bottom: 1px solid #ede3d1;
         }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:nth-child(even) {
-            background: #f9f9f9;
-        }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background: #fbf7ee; }
 
         /* Lists */
         ul, ol {
             margin: 1em 0;
             padding-left: 2em;
         }
-
         li {
             margin: 0.5em 0;
         }
 
-        /* Better header hierarchy */
-        h1.journal-title {
-            page-break-before: always;
+        /* Dividers */
+        hr {
+            border: none;
+            border-top: 1px solid var(--gold);
+            margin: 2em 0;
+            opacity: 0.6;
+        }
+        .journal-divider {
+            border-top: 2px dashed var(--gold);
+            margin: 48px 0;
         }
 
-        h1.journal-title:first-of-type {
-            page-break-before: avoid;
-        }
-
-        h3 {
-            color: var(--accent);
-            margin-top: 2em;
-            font-size: 1.3em;
-        }
-
-        /* Code and emphasis */
-        strong {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        em {
-            color: #555;
+        /* Footer */
+        .journal-footer {
+            text-align: center;
+            margin-top: 48px;
+            padding: 24px;
+            color: var(--ink-light);
+            font-size: 0.9em;
+            border-top: 2px solid var(--gold);
         }
 
         @media print {
-            body {
-                padding: 0;
-            }
-            .video-container {
-                border: 2px dashed #999;
-            }
+            body { padding: 0; background: #fff; }
+            .login-container { display: none; }
+            #journal-content { display: block; }
+            .journal-entry { box-shadow: none; }
+            .photo:hover { transform: none; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .journal-entry { padding: 18px; }
+            .journal-header h1 { font-size: 2.2em; }
+            .journal-title { font-size: 1.6em; }
+            .photo-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="journal-entry"><h1 class="journal-title">Journal 1 — Phoenix to Hong Kong</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 1 — Phoenix to Hong Kong</h2>
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <h1>China Trip 2026</h1>
+            <p>Enter password to view the journal</p>
+            <input type="password" id="password-input" placeholder="Password" autofocus>
+            <button onclick="checkPassword()">Enter</button>
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="journal-content">
+        <header class="journal-header">
+            <h1>中国之旅 2026</h1>
+            <div class="subtitle">China Trip 2026 — A Family Journal</div>
+            <div class="seal">福 · 旅 · 记</div>
+        </header>
+
+        <article class="journal-entry">
+<h1 class="journal-title">Journal 1 — Phoenix to Hong Kong</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-12, 2026-05-13</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
+
+<h2>🗓️ Day 1 — Phoenix to Hong Kong</h2>
 <p><strong>Date</strong>: 2026-05-12 / 2026-05-13 (Mon–Tue)</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
 Phoenix, AZ, USA — May 12, 2026<br />
@@ -293,6 +453,7 @@ I was in the restroom shortly before boarding and he found a wallet  sitting the
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[Sitting in the small cafe (King's Dimsum) at Jardine's Bazaar eating local Chinese food while it rained]</p>
 </div></div>
 
 <hr />
@@ -330,11 +491,14 @@ I was in the restroom shortly before boarding and he found a wallet  sitting the
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 2 — Hong Kong</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-14</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 2 — Hong Kong</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 2 — Hong Kong</h2>
+<h2>🗓️ Day 2 — Hong Kong</h2>
 <p><strong>Date</strong>: 2026-05-14 (Wednesday)</p>
 <p><strong>Weather</strong>: 31°C / 25°C, partly cloudy turning to afternoon rain, very humid (~85%)</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -363,33 +527,55 @@ Bruce said  "I walked streets for quite a what seemed like quite a while looking
 The first night in Hong Kong, Bruce did not sleep very well, but Anneliese and Lois slept very well this first night. (I think Bruce was a little concerned about making the train early in the next morning.)</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260513_173732_545.jpg" data-caption=""><a href="assets/IMG_20260513_173732_545.jpg" class="lightbox-link"><img src="assets/IMG_20260513_173732_545.jpg" alt="IMG_20260513_173732_545.jpg" loading="lazy"></a></figure>
-<p><em>Kowloon Park near the BP International Hotel</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260513_174529_768.jpg" data-caption=""><a href="assets/IMG_20260513_174529_768.jpg" class="lightbox-link"><img src="assets/IMG_20260513_174529_768.jpg" alt="IMG_20260513_174529_768.jpg" loading="lazy"></a></figure>
-<p><em>Water Fountain at Kowloon Park</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260513_182720_422.jpg" data-caption=""><a href="assets/IMG_20260513_182720_422.jpg" class="lightbox-link"><img src="assets/IMG_20260513_182720_422.jpg" alt="IMG_20260513_182720_422.jpg" loading="lazy"></a></figure>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260513_173732_545.jpg" alt="IMG_20260513_173732_545.jpg" loading="lazy">
+    <figcaption>Kowloon Park near the BP International Hotel</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260513_174529_768.jpg" alt="IMG_20260513_174529_768.jpg" loading="lazy">
+    <figcaption>Water Fountain at Kowloon Park</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260513_182720_422.jpg" alt="IMG_20260513_182720_422.jpg" loading="lazy">
+
+</figure>
 <p>Tsim Sha Tsui, station on one end of Kowloon Park</p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260513_184830_051.jpg" data-caption=""><a href="assets/IMG_20260513_184830_051.jpg" class="lightbox-link"><img src="assets/IMG_20260513_184830_051.jpg" alt="IMG_20260513_184830_051.jpg" loading="lazy"></a></figure>
-<p><em>Downtown Hong Kong, near Causeway Bay</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260513_190831_266.jpg" data-caption=""><a href="assets/IMG_20260513_190831_266.jpg" class="lightbox-link"><img src="assets/IMG_20260513_190831_266.jpg" alt="IMG_20260513_190831_266.jpg" loading="lazy"></a></figure>
-<p><em>Brandy Melville's next to Times Square, Hong Kong</em></p>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260514_104114_847.jpg" data-caption=""><a href="assets/IMG_20260514_104114_847.jpg" class="lightbox-link"><img src="assets/IMG_20260514_104114_847.jpg" alt="IMG_20260514_104114_847.jpg" loading="lazy"></a></figure>
-<p><em>Arriving in Times Square, Hong Kong</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260514_105849_424.jpg" data-caption=""><a href="assets/IMG_20260514_105849_424.jpg" class="lightbox-link"><img src="assets/IMG_20260514_105849_424.jpg" alt="IMG_20260514_105849_424.jpg" loading="lazy"></a></figure>
-<p><em>View while having Tokyo Matcha on Matheson Street.</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260514_171655_003.jpg" data-caption=""><a href="assets/IMG_20260514_171655_003.jpg" class="lightbox-link"><img src="assets/IMG_20260514_171655_003.jpg" alt="IMG_20260514_171655_003.jpg" loading="lazy"></a></figure>
-<p><em>Dumpling lunch in the Jardine area</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260514_194559_649.jpg" data-caption=""><a href="assets/IMG_20260514_194559_649.jpg" class="lightbox-link"><img src="assets/IMG_20260514_194559_649.jpg" alt="IMG_20260514_194559_649.jpg" loading="lazy"></a></figure>
-<p><em>Hong Kong streets at night— neon and crowds</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260514_210950_742.jpg" data-caption=""><a href="assets/IMG_20260514_210950_742.jpg" class="lightbox-link"><img src="assets/IMG_20260514_210950_742.jpg" alt="IMG_20260514_210950_742.jpg" loading="lazy"></a></figure>
-<p><em>Night falls over Hong Kong Island</em></p>
+<figure class="photo">
+    <img src="assets/IMG_20260513_184830_051.jpg" alt="IMG_20260513_184830_051.jpg" loading="lazy">
+    <figcaption>Downtown Hong Kong, near Causeway Bay</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260513_190831_266.jpg" alt="IMG_20260513_190831_266.jpg" loading="lazy">
+    <figcaption>Brandy Melville's next to Times Square, Hong Kong</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260514_104114_847.jpg" alt="IMG_20260514_104114_847.jpg" loading="lazy">
+    <figcaption>Arriving in Times Square, Hong Kong</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260514_105849_424.jpg" alt="IMG_20260514_105849_424.jpg" loading="lazy">
+    <figcaption>View while having Tokyo Matcha on Matheson Street.</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260514_171655_003.jpg" alt="IMG_20260514_171655_003.jpg" loading="lazy">
+    <figcaption>Dumpling lunch in the Jardine area</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260514_194559_649.jpg" alt="IMG_20260514_194559_649.jpg" loading="lazy">
+    <figcaption>Hong Kong streets at night— neon and crowds</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260514_210950_742.jpg" alt="IMG_20260514_210950_742.jpg" loading="lazy">
+    <figcaption>Night falls over Hong Kong Island</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
-</div></div>
 
+</div></div>
+<p>Sitting in the small cafe (King's Dimsum) at Jardine's Bazaar eating local Chinese food while it rained</p>
 <hr />
 <h3>🔗 Related Pages</h3>
 <ul>
@@ -424,11 +610,14 @@ The first night in Hong Kong, Bruce did not sleep very well, but Anneliese and L
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 3 — Hong Kong to Chongqing</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-15</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 3 — Hong Kong to Chongqing</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 3 — Hong Kong to Chongqing</h2>
+<h2>🗓️ Day 3 — Hong Kong to Chongqing</h2>
 <p><strong>Date</strong>: 2026-05-15 (Thursday)</p>
 <p><strong>Weather</strong>: Chongqing: 28°C / 20°C, overcast with occasional drizzle, humid (~75%)</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -468,23 +657,36 @@ McDonald's was a big success because we were able to pay for it with Lois's WeCh
 with him.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260515_111515_203.jpg" data-caption=""><a href="assets/IMG_20260515_111515_203.jpg" class="lightbox-link"><img src="assets/IMG_20260515_111515_203.jpg" alt="IMG_20260515_111515_203.jpg" loading="lazy"></a></figure>
-<p><em>High-speed bullet train from Hong Kong to Chongqing</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260515_140009_581.jpg" data-caption=""><a href="assets/IMG_20260515_140009_581.jpg" class="lightbox-link"><img src="assets/IMG_20260515_140009_581.jpg" alt="IMG_20260515_140009_581.jpg" loading="lazy"></a></figure>
-<p><em>Chongqing skyline — first glimpse of the mountain city</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260515_152536_573.jpg" data-caption=""><a href="assets/IMG_20260515_152536_573.jpg" class="lightbox-link"><img src="assets/IMG_20260515_152536_573.jpg" alt="IMG_20260515_152536_573.jpg" loading="lazy"></a></figure>
-<p><em>Checking into the Chongqing hotel</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260515_160914_594.jpg" data-caption=""><a href="assets/IMG_20260515_160914_594.jpg" class="lightbox-link"><img src="assets/IMG_20260515_160914_594.jpg" alt="IMG_20260515_160914_594.jpg" loading="lazy"></a></figure>
-<p><em>Evening walk through Chongqing streets</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260515_185835_809.jpg" data-caption=""><a href="assets/IMG_20260515_185835_809.jpg" class="lightbox-link"><img src="assets/IMG_20260515_185835_809.jpg" alt="IMG_20260515_185835_809.jpg" loading="lazy"></a></figure>
-<p><em>Chongqing at night — the city of lights</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260515_222207_312.jpg" data-caption=""><a href="assets/IMG_20260515_222207_312.jpg" class="lightbox-link"><img src="assets/IMG_20260515_222207_312.jpg" alt="IMG_20260515_222207_312.jpg" loading="lazy"></a></figure>
-<p><em>Late night views from the hotel</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260515_111515_203.jpg" alt="IMG_20260515_111515_203.jpg" loading="lazy">
+    <figcaption>High-speed bullet train from Hong Kong to Chongqing</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260515_140009_581.jpg" alt="IMG_20260515_140009_581.jpg" loading="lazy">
+    <figcaption>Chongqing skyline — first glimpse of the mountain city</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260515_152536_573.jpg" alt="IMG_20260515_152536_573.jpg" loading="lazy">
+    <figcaption>Checking into the Chongqing hotel</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260515_160914_594.jpg" alt="IMG_20260515_160914_594.jpg" loading="lazy">
+    <figcaption>Evening walk through Chongqing streets</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260515_185835_809.jpg" alt="IMG_20260515_185835_809.jpg" loading="lazy">
+    <figcaption>Chongqing at night — the city of lights</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260515_222207_312.jpg" alt="IMG_20260515_222207_312.jpg" loading="lazy">
+    <figcaption>Late night views from the hotel</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>The bullet train gliding through the Chinese countryside — our first real glimpse of mainland China through the window. Watching the landscape transform from Hong Kong's tropical hills to the rugged karst mountains of Guilin and finally the urban sprawl of Chongqing.</p>
 </div></div>
 
 <hr />
@@ -522,11 +724,14 @@ with him.</p>
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 4 — Fuling</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-16</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 4 — Fuling</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 4 — Fuling</h2>
+<h2>🗓️ Day 4 — Fuling</h2>
 <p><strong>Date</strong>: 2026-05-16 (Friday)</p>
 <p><strong>Weather</strong>: Chongqing/Fuling: 26°C / 19°C, overcast, humid (~80%)</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -576,23 +781,36 @@ and I thought it was going to be a drum show, but I was pleasantly surprised it 
 I.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260516_084412_511.jpg" data-caption=""><a href="assets/IMG_20260516_084412_511.jpg" class="lightbox-link"><img src="assets/IMG_20260516_084412_511.jpg" alt="IMG_20260516_084412_511.jpg" loading="lazy"></a></figure>
-<p><em>Morning drive to Fuling — mountains outside Chongqing</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260516_105042_013.jpg" data-caption=""><a href="assets/IMG_20260516_105042_013.jpg" class="lightbox-link"><img src="assets/IMG_20260516_105042_013.jpg" alt="IMG_20260516_105042_013.jpg" loading="lazy"></a></figure>
-<p><em>The Fuling orphanage — now a kindergarten</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260516_110451_626.jpg" data-caption=""><a href="assets/IMG_20260516_110451_626.jpg" class="lightbox-link"><img src="assets/IMG_20260516_110451_626.jpg" alt="IMG_20260516_110451_626.jpg" loading="lazy"></a></figure>
-<p><em>Walking the streets of Fuling, where it all began</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260516_111408_122.jpg" data-caption=""><a href="assets/IMG_20260516_111408_122.jpg" class="lightbox-link"><img src="assets/IMG_20260516_111408_122.jpg" alt="IMG_20260516_111408_122.jpg" loading="lazy"></a></figure>
-<p><em>Buying Sichuan Fuling seasoning at the local market</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260516_115126_432.jpg" data-caption=""><a href="assets/IMG_20260516_115126_432.jpg" class="lightbox-link"><img src="assets/IMG_20260516_115126_432.jpg" alt="IMG_20260516_115126_432.jpg" loading="lazy"></a></figure>
-<p><em>Traditional street lunch — tofu, chili oil, and rice</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260516_123603_617.jpg" data-caption=""><a href="assets/IMG_20260516_123603_617.jpg" class="lightbox-link"><img src="assets/IMG_20260516_123603_617.jpg" alt="IMG_20260516_123603_617.jpg" loading="lazy"></a></figure>
-<p><em>Drones over Chongqing — the spectacular night show</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260516_084412_511.jpg" alt="IMG_20260516_084412_511.jpg" loading="lazy">
+    <figcaption>Morning drive to Fuling — mountains outside Chongqing</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260516_105042_013.jpg" alt="IMG_20260516_105042_013.jpg" loading="lazy">
+    <figcaption>The Fuling orphanage — now a kindergarten</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260516_110451_626.jpg" alt="IMG_20260516_110451_626.jpg" loading="lazy">
+    <figcaption>Walking the streets of Fuling, where it all began</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260516_111408_122.jpg" alt="IMG_20260516_111408_122.jpg" loading="lazy">
+    <figcaption>Buying Sichuan Fuling seasoning at the local market</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260516_115126_432.jpg" alt="IMG_20260516_115126_432.jpg" loading="lazy">
+    <figcaption>Traditional street lunch — tofu, chili oil, and rice</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260516_123603_617.jpg" alt="IMG_20260516_123603_617.jpg" loading="lazy">
+    <figcaption>Drones over Chongqing — the spectacular night show</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -630,11 +848,14 @@ I.</p>
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 5 — Chongqing</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-17</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 5 — Chongqing</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 5 — Chongqing</h2>
+<h2>🗓️ Day 5 — Chongqing</h2>
 <p><strong>Date</strong>: 2026-05-17 (Saturday)</p>
 <p><strong>Weather</strong>: Chongqing: 30°C / 21°C, partly cloudy, humid (~70%)</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -680,23 +901,36 @@ because we were at the very bottom, we had to walk 21 floors to get back to the 
 forgot a.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260517_124430_857.jpg" data-caption=""><a href="assets/IMG_20260517_124430_857.jpg" class="lightbox-link"><img src="assets/IMG_20260517_124430_857.jpg" alt="IMG_20260517_124430_857.jpg" loading="lazy"></a></figure>
-<p><em>Chongqing Zoo — pandas waking up for the day</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260517_130013_451.jpg" data-caption=""><a href="assets/IMG_20260517_130013_451.jpg" class="lightbox-link"><img src="assets/IMG_20260517_130013_451.jpg" alt="IMG_20260517_130013_451.jpg" loading="lazy"></a></figure>
-<p><em>Up close with the giant pandas</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260517_141012_527.jpg" data-caption=""><a href="assets/IMG_20260517_141012_527.jpg" class="lightbox-link"><img src="assets/IMG_20260517_141012_527.jpg" alt="IMG_20260517_141012_527.jpg" loading="lazy"></a></figure>
-<p><em>Hongya Caves — the stilted wonder of Chongqing</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260517_145900_371.jpg" data-caption=""><a href="assets/IMG_20260517_145900_371.jpg" class="lightbox-link"><img src="assets/IMG_20260517_145900_371.jpg" alt="IMG_20260517_145900_371.jpg" loading="lazy"></a></figure>
-<p><em>Sunset from the Raffles City glass-bottom deck</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260517_150220_679.jpg" data-caption=""><a href="assets/IMG_20260517_150220_679.jpg" class="lightbox-link"><img src="assets/IMG_20260517_150220_679.jpg" alt="IMG_20260517_150220_679.jpg" loading="lazy"></a></figure>
-<p><em>Sichuan hot pot dinner — yin yang pot</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260517_193114_505.jpg" data-caption=""><a href="assets/IMG_20260517_193114_505.jpg" class="lightbox-link"><img src="assets/IMG_20260517_193114_505.jpg" alt="IMG_20260517_193114_505.jpg" loading="lazy"></a></figure>
-<p><em>Chongqing city lights after dark</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260517_124430_857.jpg" alt="IMG_20260517_124430_857.jpg" loading="lazy">
+    <figcaption>Chongqing Zoo — pandas waking up for the day</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260517_130013_451.jpg" alt="IMG_20260517_130013_451.jpg" loading="lazy">
+    <figcaption>Up close with the giant pandas</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260517_141012_527.jpg" alt="IMG_20260517_141012_527.jpg" loading="lazy">
+    <figcaption>Hongya Caves — the stilted wonder of Chongqing</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260517_145900_371.jpg" alt="IMG_20260517_145900_371.jpg" loading="lazy">
+    <figcaption>Sunset from the Raffles City glass-bottom deck</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260517_150220_679.jpg" alt="IMG_20260517_150220_679.jpg" loading="lazy">
+    <figcaption>Sichuan hot pot dinner — yin yang pot</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260517_193114_505.jpg" alt="IMG_20260517_193114_505.jpg" loading="lazy">
+    <figcaption>Chongqing city lights after dark</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -733,11 +967,14 @@ forgot a.</p>
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 6 — Chongqing to Shanghai</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-18</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 6 — Chongqing to Shanghai</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 6 — Chongqing to Shanghai</h2>
+<h2>🗓️ Day 6 — Chongqing to Shanghai</h2>
 <p><strong>Date</strong>: 2026-05-18 (Sunday)</p>
 <p><strong>Weather</strong>: Chongqing: rainy morning, 22°C / 17°C; Shanghai: 24°C / 17°C, partly cloudy</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -816,19 +1053,28 @@ Ate at the place, found some ice cream, and then decided to return back for the 
 My mom ordered some noodle soup, and then beef noodle soup, and my dad ordered some crunchy beef noodles that were good, yeah, they were good, but didn't realize they were crunchy. The experience overall was what was needed at the moment, just some dinner and a sit-down place, and mom thought I didn't like the food, so she was, and she thought, because I was confused about what was ordered, she thought I was trying to switch her food with mine, and she's still to this day hasn't gotten over that,</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260518_110002_424.jpg" data-caption=""><a href="assets/IMG_20260518_110002_424.jpg" class="lightbox-link"><img src="assets/IMG_20260518_110002_424.jpg" alt="IMG_20260518_110002_424.jpg" loading="lazy"></a></figure>
-<p><em>Rainy morning — hailing a taxi in Chongqing</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260518_111911_747.jpg" data-caption=""><a href="assets/IMG_20260518_111911_747.jpg" class="lightbox-link"><img src="assets/IMG_20260518_111911_747.jpg" alt="IMG_20260518_111911_747.jpg" loading="lazy"></a></figure>
-<p><em>Tim Hortons at Chongqing Airport — a taste of the west</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260518_155245_685.jpg" data-caption=""><a href="assets/IMG_20260518_155245_685.jpg" class="lightbox-link"><img src="assets/IMG_20260518_155245_685.jpg" alt="IMG_20260518_155245_685.jpg" loading="lazy"></a></figure>
-<p><em>Maglev train arriving — 300 km/h to Shanghai</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260518_155249_721.jpg" data-caption=""><a href="assets/IMG_20260518_155249_721.jpg" class="lightbox-link"><img src="assets/IMG_20260518_155249_721.jpg" alt="IMG_20260518_155249_721.jpg" loading="lazy"></a></figure>
-<p><em>Shanghai at first sight — Nanjing Road by night</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260518_110002_424.jpg" alt="IMG_20260518_110002_424.jpg" loading="lazy">
+    <figcaption>Rainy morning — hailing a taxi in Chongqing</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260518_111911_747.jpg" alt="IMG_20260518_111911_747.jpg" loading="lazy">
+    <figcaption>Tim Hortons at Chongqing Airport — a taste of the west</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260518_155245_685.jpg" alt="IMG_20260518_155245_685.jpg" loading="lazy">
+    <figcaption>Maglev train arriving — 300 km/h to Shanghai</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260518_155249_721.jpg" alt="IMG_20260518_155249_721.jpg" loading="lazy">
+    <figcaption>Shanghai at first sight — Nanjing Road by night</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -866,11 +1112,14 @@ My mom ordered some noodle soup, and then beef noodle soup, and my dad ordered s
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 7 — Shanghai</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-19</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 7 — Shanghai</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 7 — Shanghai</h2>
+<h2>🗓️ Day 7 — Shanghai</h2>
 <p><strong>Date</strong>: 2026-05-19 (Monday)</p>
 <p><strong>Weather</strong>: Shanghai: 26°C / 18°C, partly cloudy with light afternoon sprinkles</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -937,23 +1186,36 @@ let's stop right there.</p>
 Once we were finished with the dinner, we were pretty tired, so we headed back to the hotel, but the hotel actually had this place similar to a 711 called Family mart and we stopped in there, ate some dinner, I got some water, and then headed back up to the room and snacks and ended our day.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260519_113712_945.jpg" data-caption=""><a href="assets/IMG_20260519_113712_945.jpg" class="lightbox-link"><img src="assets/IMG_20260519_113712_945.jpg" alt="IMG_20260519_113712_945.jpg" loading="lazy"></a></figure>
-<p><em>Tianzi Fang — the maze of artisan shops and souvenirs</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260519_114311_907.jpg" data-caption=""><a href="assets/IMG_20260519_114311_907.jpg" class="lightbox-link"><img src="assets/IMG_20260519_114311_907.jpg" alt="IMG_20260519_114311_907.jpg" loading="lazy"></a></figure>
-<p><em>Silk scarves and perfumes in the Tianzi Fang alleys</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260519_122617_116.jpg" data-caption=""><a href="assets/IMG_20260519_122617_116.jpg" class="lightbox-link"><img src="assets/IMG_20260519_122617_116.jpg" alt="IMG_20260519_122617_116.jpg" loading="lazy"></a></figure>
-<p><em>On Fu Road — tree-lined upscale Shanghai</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260519_135318_181.jpg" data-caption=""><a href="assets/IMG_20260519_135318_181.jpg" class="lightbox-link"><img src="assets/IMG_20260519_135318_181.jpg" alt="IMG_20260519_135318_181.jpg" loading="lazy"></a></figure>
-<p><em>Yu Yuan Gardens — koi fish and historic tea house</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260519_153243_702.jpg" data-caption=""><a href="assets/IMG_20260519_153243_702.jpg" class="lightbox-link"><img src="assets/IMG_20260519_153243_702.jpg" alt="IMG_20260519_153243_702.jpg" loading="lazy"></a></figure>
-<p><em>The Bund — colonial architecture along the river</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260519_165747_664.jpg" data-caption=""><a href="assets/IMG_20260519_165747_664.jpg" class="lightbox-link"><img src="assets/IMG_20260519_165747_664.jpg" alt="IMG_20260519_165747_664.jpg" loading="lazy"></a></figure>
-<p><em>Shanghai dinner — seven plates of traditional cuisine</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260519_113712_945.jpg" alt="IMG_20260519_113712_945.jpg" loading="lazy">
+    <figcaption>Tianzi Fang — the maze of artisan shops and souvenirs</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260519_114311_907.jpg" alt="IMG_20260519_114311_907.jpg" loading="lazy">
+    <figcaption>Silk scarves and perfumes in the Tianzi Fang alleys</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260519_122617_116.jpg" alt="IMG_20260519_122617_116.jpg" loading="lazy">
+    <figcaption>On Fu Road — tree-lined upscale Shanghai</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260519_135318_181.jpg" alt="IMG_20260519_135318_181.jpg" loading="lazy">
+    <figcaption>Yu Yuan Gardens — koi fish and historic tea house</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260519_153243_702.jpg" alt="IMG_20260519_153243_702.jpg" loading="lazy">
+    <figcaption>The Bund — colonial architecture along the river</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260519_165747_664.jpg" alt="IMG_20260519_165747_664.jpg" loading="lazy">
+    <figcaption>Shanghai dinner — seven plates of traditional cuisine</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -990,11 +1252,14 @@ Once we were finished with the dinner, we were pretty tired, so we headed back t
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 8 — Shanghai</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-20</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 8 — Shanghai</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 8 — Shanghai</h2>
+<h2>🗓️ Day 8 — Shanghai</h2>
 <p><strong>Date</strong>: 2026-05-20 (Tuesday)</p>
 <p><strong>Weather</strong>: Shanghai: 27°C / 19°C, cloudy morning clearing to sunny afternoon</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -1018,21 +1283,35 @@ Oh, that's right, we didn't have much. We went to Five Guys.</p>
 Yes, and at Five Guys, we had a big hamburger and lots of fries, and we got really full, and it was wonderful. And we, Annelies, thought that the help was rather rude and short with us at by that time we were getting pretty tired because it had been a long day and Bruce wanted to go back and see the lights from the river at night because we didn't quite get to see that the previous night so I convinced everyone to walk back that way, and we also went in a very large mall. Not sure what we were looking for, but along the way was a very large mall, and we were looking for a bathroom, and we found it, but it was all upscale mall, just a very large building on the Boone, but once we walked in the door, it was a multi-store mall inside, and just full of all of high-end stores, just like the one in Hong Kong, and just like the one in the Pudong district that we were at earlier in the day, so we found the bathroom, and by then it was dark, and we were headed to go see the lights, but we were just too tired, so Bruce ran on a little bit ahead and took some video through the crowds. There were lots of crowds of people, just a mass of people along the river, but it was very spectacular, the lights in all directions, and the boon in particular, and we, Bruce, ran back, and then we headed as quickly as we could back to the East Nanjing Station, so we could head home, we with just a small stop to get some ice cream along the way, which turned out to be not very good ice cream. So back again in the East Nanjing Road metro, we took back to Beijing Ling Road, Bai Jianling Road, and then we walked back to the family mart and got some ice cream and headed back to our room to sleep. One of the concerns we had was getting being able to get our DD driver, because it was a long drive early in the morning, 530 in the morning, to back to the catch our flight to Taipei the next morning, but thankfully Lois was able to get that working on her phone earlier in the day before we left, and we had it all scheduled so that early in the morning the next morning our DD driver would be there to pick us up, and we would head to the airport to go to Taipei.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260520_105308_277.jpg" data-caption=""><a href="assets/IMG_20260520_105308_277.jpg" class="lightbox-link"><img src="assets/IMG_20260520_105308_277.jpg" alt="IMG_20260520_105308_277.jpg" loading="lazy"></a></figure>
-<p><em>Oriental Pearl Tower — observation deck views</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260520_120230_694.jpg" data-caption=""><a href="assets/IMG_20260520_120230_694.jpg" class="lightbox-link"><img src="assets/IMG_20260520_120230_694.jpg" alt="IMG_20260520_120230_694.jpg" loading="lazy"></a></figure>
-<p><em>Annalise on the glass-bottom observation deck</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260520_161442_426.jpg" data-caption=""><a href="assets/IMG_20260520_161442_426.jpg" class="lightbox-link"><img src="assets/IMG_20260520_161442_426.jpg" alt="IMG_20260520_161442_426.jpg" loading="lazy"></a></figure>
-<p><em>Five Guys lunch — a taste of home in Shanghai</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260520_171840_008.jpg" data-caption=""><a href="assets/IMG_20260520_171840_008.jpg" class="lightbox-link"><img src="assets/IMG_20260520_171840_008.jpg" alt="IMG_20260520_171840_008.jpg" loading="lazy"></a></figure>
-<p><em>The Bund at night — spectacular river lights</em></p>
-<div class="video-container"><video controls preload="metadata"><source src="assets/VID_20260520_171827.mp4" type="video/mp4">Your browser does not support video.</video></div>
-<p><em>Video: Bund night lights across the Huangpu River</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260520_105308_277.jpg" alt="IMG_20260520_105308_277.jpg" loading="lazy">
+    <figcaption>Oriental Pearl Tower — observation deck views</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260520_120230_694.jpg" alt="IMG_20260520_120230_694.jpg" loading="lazy">
+    <figcaption>Annalise on the glass-bottom observation deck</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260520_161442_426.jpg" alt="IMG_20260520_161442_426.jpg" loading="lazy">
+    <figcaption>Five Guys lunch — a taste of home in Shanghai</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260520_171840_008.jpg" alt="IMG_20260520_171840_008.jpg" loading="lazy">
+    <figcaption>The Bund at night — spectacular river lights</figcaption>
+</figure>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260520_171827.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+    <p class="video-note">Video: Bund night lights across the Huangpu River</p>
+</div>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -1069,11 +1348,14 @@ Yes, and at Five Guys, we had a big hamburger and lots of fries, and we got real
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 9 — Taipei</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-21</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 9 — Taipei</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h2>🗓️ Day 9 — Taipei</h2>
+<h2>🗓️ Day 9 — Taipei</h2>
 <p><strong>Date</strong>: 2026-05-21 (Wednesday)</p>
 <p><strong>Weather</strong>: Taipei: 29°C / 23°C, partly cloudy, humid (~80%)</p>
 <p><strong>🌤️ Historical Weather Report</strong>:<br />
@@ -1171,23 +1453,36 @@ Do you guys want to add anything? I forgot.</p>
 No.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260521_081927_666.jpg" data-caption=""><a href="assets/IMG_20260521_081927_666.jpg" class="lightbox-link"><img src="assets/IMG_20260521_081927_666.jpg" alt="IMG_20260521_081927_666.jpg" loading="lazy"></a></figure>
-<p><em>Shanghai airport — waiting to transfer to Taipei</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260521_083246_530.jpg" data-caption=""><a href="assets/IMG_20260521_083246_530.jpg" class="lightbox-link"><img src="assets/IMG_20260521_083246_530.jpg" alt="IMG_20260521_083246_530.jpg" loading="lazy"></a></figure>
-<p><em>Juneyao Airlines — pink and purple cabin to Taipei</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260521_145622_295.jpg" data-caption=""><a href="assets/IMG_20260521_145622_295.jpg" class="lightbox-link"><img src="assets/IMG_20260521_145622_295.jpg" alt="IMG_20260521_145622_295.jpg" loading="lazy"></a></figure>
-<p><em>Taipei 101 — observation deck views</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260521_164130_331.jpg" data-caption=""><a href="assets/IMG_20260521_164130_331.jpg" class="lightbox-link"><img src="assets/IMG_20260521_164130_331.jpg" alt="IMG_20260521_164130_331.jpg" loading="lazy"></a></figure>
-<p><em>Taipei 101 damper — the massive tuned mass damper</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260521_164410_112.jpg" data-caption=""><a href="assets/IMG_20260521_164410_112.jpg" class="lightbox-link"><img src="assets/IMG_20260521_164410_112.jpg" alt="IMG_20260521_164410_112.jpg" loading="lazy"></a></figure>
-<p><em>Shilin Night Market — food stalls and boba tea</em></p>
-<figure class="photo " data-fancybox="gallery" data-src="assets/IMG_20260521_204205_960.jpg" data-caption=""><a href="assets/IMG_20260521_204205_960.jpg" class="lightbox-link"><img src="assets/IMG_20260521_204205_960.jpg" alt="IMG_20260521_204205_960.jpg" loading="lazy"></a></figure>
-<p><em>Returning to the Hyatt Regency — the last night</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260521_081927_666.jpg" alt="IMG_20260521_081927_666.jpg" loading="lazy">
+    <figcaption>Shanghai airport — waiting to transfer to Taipei</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260521_083246_530.jpg" alt="IMG_20260521_083246_530.jpg" loading="lazy">
+    <figcaption>Juneyao Airlines — pink and purple cabin to Taipei</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260521_145622_295.jpg" alt="IMG_20260521_145622_295.jpg" loading="lazy">
+    <figcaption>Taipei 101 — observation deck views</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260521_164130_331.jpg" alt="IMG_20260521_164130_331.jpg" loading="lazy">
+    <figcaption>Taipei 101 damper — the massive tuned mass damper</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260521_164410_112.jpg" alt="IMG_20260521_164410_112.jpg" loading="lazy">
+    <figcaption>Shilin Night Market — food stalls and boba tea</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260521_204205_960.jpg" alt="IMG_20260521_204205_960.jpg" loading="lazy">
+    <figcaption>Returning to the Hyatt Regency — the last night</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -1224,26 +1519,34 @@ No.</p>
 <td></td>
 </tr>
 </tbody>
-</table></div>
-
+</table>
+</article>
 <hr class="journal-divider">
+<article class="journal-entry">
+<h1 class="journal-title">Journal 10 — Taipei to Phoenix</h1>
+<div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
 
-<div class="journal-entry"><h1 class="journal-title">Journal 10 — Taipei to Phoenix</h1><div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">🏷️ [china-trip-2026]</span></div><h3>📝 What We Did</h3>
+<h3>📝 What We Did</h3>
 <p>[Speaker 1 0:00<br />
 What's going alright? So the last day of our trip, we woke early in Taipei at our hotel, and we were, we packed up, checked out in, I believe, at 730 or seven, we got on the bus half hour early, 7o'clock and we took the bus to our terminal, yeah, the hotel shuttle to our terminal, and we were able to, there was a long line of people when we got there to Delta, very long line of people, and we got in line, but then someone asked us if we had our, if we were checking our bags, and we said yes, and they sent us to another line, which was much shorter, and we went through the line, but then we had some kind of problem with Lois's bag, not sure what it was, but we had to go to the security room and answer some questions, and then everything was fine, and we could go back to the check-in, and we were able to check in the bag and get ready for our trip, we had not eaten any breakfast, so we went through security fairly easily, and then when we entered into the concourse, it was much nicer. In fact, the whole thing was much nicer than the then where we entered the previous day to Taipei. This was all a new area, and the gates were like themed, so we found our gate, and there were shops everywhere. So we found our gate, which was, I believe, like a rain forest kind of theme. And then we went and found breakfast at a nice cafe, and we ate there, and then we did some shopping for gifts for people, and we were able to find candies and some different things there, all along there were many shops, and so we spent the rest of our Taiwanese monies change and things like that in the vending machines and in the store, and then we were ready to board. It was boarded early, and it was a little confusing because we boarded, we were able to just go down and like pre-board, so they looked at everything first, and then we went downstairs, and then we waited there, and then lined up again, and then checked in, and we're able to just walk right on to the plane and get ready for our flight home. The flight home on Delta wasn't as large a plane as the United plane that we took to Hong Kong, but it was still plenty large, and we had the three seats in the middle this time, instead of the three seats on the side. On our plane was on the way over. I believe there were five seats in the middle, so we had the three seats in the middle, and we were in at the beginning or second row of a section, and it worked out very nicely, and we were able to sleep mostly. So by the time we got on the plane, it was, it was about noon or 11am maybe not quite that late, 1030 and we had just slept the night before, but we all had our meal, and then went to sleep, so we slept off and on as you often do on a trip like that till we arrived in Seattle. When we arrived in Seattle, we got off the plane and we were had to go find our bags. They were not able to check our bags through because we had to go through immigration in Seattle, when we got off the plane, it was cool in Seattle, and there was a beautiful.. as we went walked across, we were able to see a beautiful view of Mount Rainier covered in snow, and that was pretty amazing. And then we then had to go through line, find our luggage, and then go through immigration, answer questions, and then go through security again with our luggage, even though we had never left the airport, so that took a little while, and then we finished that. Then we were able to head down to our gate to Phoenix, where we waited not very long. By that time, we didn't have very long to wait before we boarded our plane to Phoenix, which arrived in Phoenix, I believe, around 12 o'clock. So this was all the same day, the 22nd We left on the 22nd at 1030 We arrived and 22nd at like 9o'clock or earlier. So we went back in time and then boarded the plane for Phoenix, and landed in Phoenix all around, like just right after noon. So, once we arrived in Phoenix, we, we ended our journey the way we started it. We took a Waymo to Annelise's house and picked up our car and headed home</p>
 <p>Unknown 6:03<br />
 I.</p>
 <hr />
 <h3>📸 Photos</h3>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260522_091508_074.jpg" data-caption=""><a href="assets/IMG_20260522_091508_074.jpg" class="lightbox-link"><img src="assets/IMG_20260522_091508_074.jpg" alt="IMG_20260522_091508_074.jpg" loading="lazy"></a></figure>
-<p><em>Taipei airport — the rainforest-themed gate before departure</em></p>
-<figure class="photo full-width" data-fancybox="gallery" data-src="assets/IMG_20260509_180703_504.jpg" data-caption=""><a href="assets/IMG_20260509_180703_504.jpg" class="lightbox-link"><img src="assets/IMG_20260509_180703_504.jpg" alt="IMG_20260509_180703_504.jpg" loading="lazy"></a></figure>
-<p><em>Homeward bound — reflecting on an incredible journey</em></p>
+<figure class="photo full-width">
+    <img src="assets/IMG_20260522_091508_074.jpg" alt="IMG_20260522_091508_074.jpg" loading="lazy">
+    <figcaption>Taipei airport — the rainforest-themed gate before departure</figcaption>
+</figure>
+<figure class="photo">
+    <img src="assets/IMG_20260509_180703_504.jpg" alt="IMG_20260509_180703_504.jpg" loading="lazy">
+    <figcaption>Homeward bound — reflecting on an incredible journey</figcaption>
+</figure>
 <hr />
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
 <div class="callout-content">
+<p>[The single thing you'll remember most from this day. One sentence to one paragraph.]</p>
 </div></div>
 
 <hr />
@@ -1280,6 +1583,47 @@ I.</p>
 <td></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</article>
+
+        <footer class="journal-footer">
+            <p>Made with ♥ for the Goode family · 一路平安</p>
+        </footer>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD='fubaoshu';
+        const STORAGE_KEY = 'china_journal_access_v3';
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('error-message');
+            const password = input.value;
+
+            if (password === CORRECT_PASSWORD) {
+                localStorage.setItem(STORAGE_KEY, 'granted');
+                showJournal();
+            } else {
+                errorMsg.textContent = 'Incorrect password. Please try again.';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function showJournal() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('journal-content').style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('password-input');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+            if (localStorage.getItem(STORAGE_KEY) === 'granted') {
+                showJournal();
+            }
+        });
+    </script>
 </body>
 </html>
