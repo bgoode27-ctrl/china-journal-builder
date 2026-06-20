@@ -1,0 +1,12 @@
+China Trip/
+china-journal-raw-media/
+.venv/
+.claude/
+build-v3/
+hermes-outputs/
+*.md
+!README.md
+backup-hermes-20260617.sh
+rebuild-openwebui.sh
+rollback-openwebui.sh
+docker-compose.yml
