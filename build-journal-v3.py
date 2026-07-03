@@ -188,11 +188,17 @@ def convert_obsidian_callouts(content):
         nonlocal in_callout, callout_type, callout_title, callout_content
         if not in_callout:
             return
+        # Strip literal outer [...] wrappers that wrap the whole content
+        # (a common typo when authoring Obsidian callouts — they look like
+        # empty link placeholders in the rendered output)
+        body = '\n'.join(callout_content).strip()
+        if body.startswith('[') and body.endswith(']') and body.count('[') == 1 and body.count(']') == 1:
+            body = body[1:-1].strip()
         out.append(f'<div class="callout callout-{callout_type}">')
         if callout_title:
             out.append(f'<div class="callout-title">{callout_title}</div>')
         out.append('<div class="callout-content">')
-        out.append(markdown.markdown('\n'.join(callout_content)))
+        out.append(markdown.markdown(body))
         out.append('</div></div>')
         in_callout = False
         callout_type = ''

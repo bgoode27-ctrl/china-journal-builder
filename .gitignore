@@ -10,3 +10,4 @@ build-v3/
 __pycache__/
 *.pyc
 .DS_Store
+.vercel
