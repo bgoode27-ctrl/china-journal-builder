@@ -14,7 +14,6 @@ import re
 import shutil
 from pathlib import Path
 from datetime import datetime
-from collections import defaultdict
 from PIL import Image, ExifTags
 from pillow_heif import register_heif_opener
 import markdown
@@ -128,8 +127,11 @@ def apply_exif_orientation(img):
     return img
 
 
-def process_image(src_path, deploy_assets_dir, journal_dates):
-    """Convert/compress/rotate an image and return deploy filename + caption warning."""
+def process_image(src_path, deploy_assets_dir, journal_dates, max_width=None, thumb_dir=None):
+    """Convert/compress/rotate an image and return deploy filename + caption warning.
+
+    If thumb_dir is set, also generate a thumbnail of max_width for gallery grids.
+    """
     src_path = Path(src_path)
     deploy_name = src_path.stem + ".jpg"
     deploy_path = deploy_assets_dir / deploy_name
@@ -143,15 +145,30 @@ def process_image(src_path, deploy_assets_dir, journal_dates):
     elif img.mode != "RGB":
         img = img.convert("RGB")
 
-    # Resize if too large
-    if img.width > MAX_PHOTO_WIDTH:
-        ratio = MAX_PHOTO_WIDTH / img.width
-        new_size = (MAX_PHOTO_WIDTH, int(img.height * ratio))
-        img = img.resize(new_size, Image.LANCZOS)
+    # Save full compressed JPG (default MAX_PHOTO_WIDTH)
+    full_width = max_width or MAX_PHOTO_WIDTH
+    if img.width > full_width:
+        ratio = full_width / img.width
+        full_img = img.resize((full_width, int(img.height * ratio)), Image.LANCZOS)
+    else:
+        full_img = img.copy()
 
-    # Save compressed JPG
     deploy_path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(deploy_path, "JPEG", quality=JPEG_QUALITY, optimize=True)
+    full_img.save(deploy_path, "JPEG", quality=JPEG_QUALITY, optimize=True)
+
+    thumb_name = None
+    if thumb_dir is not None:
+        thumb_dir = Path(thumb_dir)
+        thumb_dir.mkdir(parents=True, exist_ok=True)
+        thumb_name = deploy_name
+        thumb_path = thumb_dir / thumb_name
+        thumb_width = 400
+        if img.width > thumb_width:
+            ratio = thumb_width / img.width
+            thumb_img = img.resize((thumb_width, int(img.height * ratio)), Image.LANCZOS)
+        else:
+            thumb_img = img.copy()
+        thumb_img.save(thumb_path, "JPEG", quality=75, optimize=True)
 
     # Date warning (allow images from the previous day for late-night travel entries)
     warning = None
@@ -160,7 +177,7 @@ def process_image(src_path, deploy_assets_dir, journal_dates):
         if not any(days_within(img_date, jd, tolerance=1) for jd in journal_dates):
             warning = f"Image date {img_date} does not match journal date(s) {', '.join(journal_dates)}"
 
-    return deploy_name, warning
+    return deploy_name, thumb_name, warning
 
 
 def extract_metadata(content):
@@ -232,35 +249,38 @@ def convert_wikilinks(content):
     return re.sub(r'\[\[([^\]|]+)(?:\|[^\]]+)?\]\]', r'\1', content)
 
 
-def replace_image_references(content, journal_dates, warnings):
-    """Replace Obsidian ![[path]] with processed <figure> HTML."""
-    photo_count_today = defaultdict(int)
-    last_date = None
+GALLERY_FENCE = re.compile(r'^::gallery\s*\n(.*?)\n::\s*$', re.MULTILINE | re.DOTALL)
+IMAGE_LINE = re.compile(r'^!\[\[([^\]]+)\]\]\s*$', re.MULTILINE)
+CAPTION_LINE = re.compile(r'^\*([^\*\n]+)\*\s*$', re.MULTILINE)
 
-    pattern = re.compile(r'^!\[\[([^\]]+)\]\]\s*\n?(?:\s*\*([^\*\n]+)\*\s*)?$', re.MULTILINE)
 
-    def repl(m):
-        nonlocal last_date
-        raw_ref = m.group(1).strip()
-        caption = m.group(2).strip() if m.group(2) else ""
-        filename = Path(raw_ref).name
-        src_path = PHOTOS_FOLDER / filename
-        if not src_path.exists():
-            src_path = VAULT / raw_ref
-        if not src_path.exists():
-            warnings.append(f"Missing file: {raw_ref}")
-            return f'<p><em>Missing media: {filename}</em></p>'
+def _resolve_image_path(raw_ref):
+    """Return the filesystem Path for an Obsidian image reference."""
+    filename = Path(raw_ref).name
+    src_path = PHOTOS_FOLDER / filename
+    if not src_path.exists():
+        src_path = VAULT / raw_ref
+    return src_path if src_path.exists() else None
 
-        ext = src_path.suffix.lower()
-        video_exts = {'.mp4', '.mov', '.MOV', '.MP4'}
-        if ext in video_exts:
-            deploy_name = filename
-            deploy_path = DEPLOY_ASSETS_DIR / deploy_name
-            deploy_path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src_path, deploy_path)
-            rel_path = f"assets/{deploy_name}"
-            cap_html = f'<p class="video-note">{caption}</p>' if caption else ""
-            return f'''<div class="video-container">
+
+def _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=None):
+    """Process a single ![[image]] into a <figure> or gallery item HTML."""
+    filename = Path(raw_ref).name
+    src_path = _resolve_image_path(raw_ref)
+    if src_path is None:
+        warnings.append(f"Missing file: {raw_ref}")
+        return f'<p><em>Missing media: {filename}</em></p>'
+
+    ext = src_path.suffix.lower()
+    video_exts = {'.mp4', '.mov', '.MOV', '.MP4'}
+    if ext in video_exts:
+        deploy_name = filename
+        deploy_path = DEPLOY_ASSETS_DIR / deploy_name
+        deploy_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src_path, deploy_path)
+        rel_path = f"assets/{deploy_name}"
+        cap_html = f'<p class="video-note">{caption}</p>' if caption else ""
+        return f'''<div class="video-container">
     <video controls preload="metadata">
         <source src="{rel_path}" type="video/mp4">
         Your browser does not support video.
@@ -268,24 +288,87 @@ def replace_image_references(content, journal_dates, warnings):
     {cap_html}
 </div>'''
 
-        deploy_name, warning = process_image(src_path, DEPLOY_ASSETS_DIR, journal_dates)
-        if warning:
-            warnings.append(f"{filename}: {warning}")
+    deploy_name, thumb_name, warning = process_image(
+        src_path, DEPLOY_ASSETS_DIR, journal_dates, thumb_dir=thumb_dir
+    )
+    if warning:
+        warnings.append(f"{filename}: {warning}")
 
-        rel_path = f"assets/{deploy_name}"
+    full_rel = f"assets/{deploy_name}"
+    cap_html = f'<figcaption>{caption}</figcaption>' if caption else ""
 
-        day_key = journal_dates[0] if journal_dates else "unknown"
-        if day_key != last_date:
-            photo_count_today[day_key] = 0
-            last_date = day_key
-        photo_count_today[day_key] += 1
-        is_full = ' full-width' if photo_count_today[day_key] == 1 else ''
-
-        cap_html = f'<figcaption>{caption}</figcaption>' if caption else ""
-        return f'''<figure class="photo{is_full}">
-    <img src="{rel_path}" alt="{filename}" loading="lazy">
+    if thumb_dir is not None:
+        thumb_rel = f"assets/thumbs/{thumb_name}"
+        return f'''<figure class="gallery-item">
+    <a href="{full_rel}" data-lightbox="gallery" data-caption="{caption}">
+        <img src="{thumb_rel}" alt="{filename}" loading="lazy">
+    </a>
     {cap_html}
 </figure>'''
+
+    return f'''<figure class="photo">
+    <img src="{full_rel}" alt="{filename}" loading="lazy">
+    {cap_html}
+</figure>'''
+
+
+def _render_gallery_block(block_body, journal_dates, warnings):
+    """Render a ::gallery ... :: block into a thumbnail grid with lightbox."""
+    thumb_dir = DEPLOY_ASSETS_DIR / "thumbs"
+    items = []
+
+    # Normalize lines and pair image references with optional caption lines
+    lines = [line for line in block_body.splitlines() if line.strip()]
+    i = 0
+    while i < len(lines):
+        img_match = IMAGE_LINE.match(lines[i])
+        if not img_match:
+            i += 1
+            continue
+        raw_ref = img_match.group(1).strip()
+        caption = ""
+        if i + 1 < len(lines):
+            cap_match = CAPTION_LINE.match(lines[i + 1])
+            if cap_match:
+                caption = cap_match.group(1).strip()
+                i += 1
+        items.append(_process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=thumb_dir))
+        i += 1
+
+    if not items:
+        return ''
+    return '\n'.join(['<div class="gallery-grid">'] + items + ['</div>'])
+
+
+def replace_image_references(content, journal_dates, warnings):
+    """Replace Obsidian ![[path]] with processed <figure> HTML and gallery blocks."""
+    photo_count_today = 0
+    last_date = None
+    day_key = journal_dates[0] if journal_dates else "unknown"
+
+    def gallery_repl(m):
+        return _render_gallery_block(m.group(1), journal_dates, warnings)
+
+    content = GALLERY_FENCE.sub(gallery_repl, content)
+
+    pattern = re.compile(r'^!\[\[([^\]]+)\]\]\s*\n?(?:\s*\*([^\*\n]+)\*\s*)?$', re.MULTILINE)
+
+    def repl(m):
+        nonlocal photo_count_today, last_date
+        raw_ref = m.group(1).strip()
+        caption = m.group(2).strip() if m.group(2) else ""
+
+        if day_key != last_date:
+            photo_count_today = 0
+            last_date = day_key
+        photo_count_today += 1
+        is_full = ' full-width' if photo_count_today == 1 else ''
+
+        figure_html = _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=None)
+        # Inject full-width class into the first photo of each entry
+        if 'class="photo"' in figure_html and is_full:
+            figure_html = figure_html.replace('class="photo"', f'class="photo{is_full}"')
+        return figure_html
 
     content = pattern.sub(repl, content)
     return content

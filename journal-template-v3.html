@@ -274,6 +274,104 @@
             object-fit: contain;
             width: 100%;
         }
+
+        /* Gallery grid with thumbnails */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 18px;
+            margin: 28px 0;
+        }
+        .gallery-item {
+            margin: 0;
+            background: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 3px 10px var(--shadow);
+            border: 1px solid #e8dec8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(43,43,43,0.18);
+        }
+        .gallery-item a {
+            display: block;
+            text-decoration: none;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            border-radius: 2px;
+            background: #eee;
+        }
+        .gallery-item figcaption {
+            font-style: italic;
+            color: var(--ink-light);
+            font-size: 0.88em;
+            text-align: center;
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px dashed #d8cbb2;
+        }
+
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #lightbox.active {
+            display: flex;
+        }
+        #lightbox img {
+            max-width: 92vw;
+            max-height: 82vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        #lightbox-caption {
+            color: #fff;
+            margin-top: 16px;
+            font-size: 1.1em;
+            font-family: 'Noto Serif SC', Georgia, serif;
+            text-align: center;
+            max-width: 80vw;
+        }
+        .lightbox-close,
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.4em;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-close:hover,
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .lightbox-close { top: 20px; right: 20px; }
+        .lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+        .lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
+
         figcaption {
             font-style: italic;
             color: var(--ink-light);
@@ -400,6 +498,9 @@
             .journal-header h1 { font-size: 2.2em; }
             .journal-title { font-size: 1.6em; }
             .photo-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item img { height: 120px; }
+            .lightbox-prev, .lightbox-next { width: 38px; height: 38px; font-size: 1.1em; }
         }
     </style>
 </head>
@@ -412,6 +513,14 @@
             <button onclick="checkPassword()">Enter</button>
             <div id="error-message" class="error-message"></div>
         </div>
+    </div>
+
+    <div id="lightbox" role="dialog" aria-modal="true">
+        <button class="lightbox-close" aria-label="Close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-prev" aria-label="Previous" onclick="prevImage()">&#10094;</button>
+        <img id="lightbox-img" src="" alt="">
+        <div id="lightbox-caption"></div>
+        <button class="lightbox-next" aria-label="Next" onclick="nextImage()">&#10095;</button>
     </div>
 
     <div id="journal-content">
@@ -429,8 +538,11 @@
     </div>
 
     <script>
-        const CORRECT_PASSWORD='fubaoshu';
+        const CORRECT_PASSWORD='***';
         const STORAGE_KEY = 'china_journal_access_v3';
+
+        let galleryImages = [];
+        let currentImageIndex = 0;
 
         function checkPassword() {
             const input = document.getElementById('password-input');
@@ -450,6 +562,68 @@
         function showJournal() {
             document.getElementById('login-container').style.display = 'none';
             document.getElementById('journal-content').style.display = 'block';
+            initLightbox();
+        }
+
+        function initLightbox() {
+            galleryImages = Array.from(document.querySelectorAll('a[data-lightbox="gallery"]')).map(function(a) {
+                return {
+                    src: a.getAttribute('href'),
+                    caption: a.getAttribute('data-caption') || ''
+                };
+            });
+
+            document.querySelectorAll('a[data-lightbox="gallery"]').forEach(function(a, index) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openLightbox(index);
+                });
+            });
+
+            document.addEventListener('keydown', function(e) {
+                const lightbox = document.getElementById('lightbox');
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+            });
+
+            const lightbox = document.getElementById('lightbox');
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+        }
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function prevImage() {
+            if (galleryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateLightbox();
+        }
+
+        function nextImage() {
+            if (galleryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            const item = galleryImages[currentImageIndex];
+            const img = document.getElementById('lightbox-img');
+            img.src = item.src;
+            img.alt = item.caption;
+            document.getElementById('lightbox-caption').textContent = item.caption;
         }
 
         document.addEventListener('DOMContentLoaded', function() {
