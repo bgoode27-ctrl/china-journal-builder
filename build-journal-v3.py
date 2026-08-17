@@ -26,16 +26,30 @@ register_heif_opener()
 HOME = Path.home()
 VAULT = HOME / "Documents/global/Research/China"
 PHOTOS_FOLDER = VAULT / "raw/assets/photos/China2026"
+CURATED_MEDIA_DIR = HOME / "Documents/Projects/china-journal-raw-media/media"
 JOURNAL_DIR = VAULT / "wiki/journal"
 REPO_ROOT = HOME / "Documents/Projects"
 TEMPLATE_FILE = REPO_ROOT / "journal-template-v3.html"
 OUTPUT_FOLDER = REPO_ROOT / "build-v3"
 DEPLOY_ASSETS_DIR = REPO_ROOT / "assets"
 
+# Map journal number to curated media folder name
+JOURNAL_MEDIA_FOLDERS = {
+    2: "J2HK",
+    3: "J3HKtoCQ",
+    4: "J4Fuling",
+    5: "J5CQZOO",
+    6: "J6CQtoSH",
+    7: "J7SHShopping",
+    8: "J8SHPudong",
+    9: "J9Taipai",
+}
+
 SKIP_FILES = {"Journal Entry Template 3.md"}
 PASSWORD = "fubaoshu"
 MAX_PHOTO_WIDTH = 1600
 JPEG_QUALITY = 80
+DEPLOY_VIDEOS = False  # Vercel deploys are too large with full-size videos
 
 
 def days_within(d1, d2, tolerance=1):
@@ -254,19 +268,26 @@ IMAGE_LINE = re.compile(r'^!\[\[([^\]]+)\]\]\s*$', re.MULTILINE)
 CAPTION_LINE = re.compile(r'^\*([^\*\n]+)\*\s*$', re.MULTILINE)
 
 
-def _resolve_image_path(raw_ref):
-    """Return the filesystem Path for an Obsidian image reference."""
+def _resolve_image_path(raw_ref, curated_dir=None):
+    """Return the filesystem Path for an Obsidian image reference.
+
+    Checks curated media folder first, then legacy China2026 folder, then vault path.
+    """
     filename = Path(raw_ref).name
+    if curated_dir is not None:
+        src_path = curated_dir / filename
+        if src_path.exists():
+            return src_path
     src_path = PHOTOS_FOLDER / filename
     if not src_path.exists():
         src_path = VAULT / raw_ref
     return src_path if src_path.exists() else None
 
 
-def _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=None):
+def _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=None, curated_dir=None):
     """Process a single ![[image]] into a <figure> or gallery item HTML."""
     filename = Path(raw_ref).name
-    src_path = _resolve_image_path(raw_ref)
+    src_path = _resolve_image_path(raw_ref, curated_dir=curated_dir)
     if src_path is None:
         warnings.append(f"Missing file: {raw_ref}")
         return f'<p><em>Missing media: {filename}</em></p>'
@@ -274,6 +295,9 @@ def _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=N
     ext = src_path.suffix.lower()
     video_exts = {'.mp4', '.mov', '.MOV', '.MP4'}
     if ext in video_exts:
+        if not DEPLOY_VIDEOS:
+            warnings.append(f"Video skipped (not deployed): {filename}")
+            return None
         deploy_name = filename
         deploy_path = DEPLOY_ASSETS_DIR / deploy_name
         deploy_path.parent.mkdir(parents=True, exist_ok=True)
@@ -312,7 +336,7 @@ def _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=N
 </figure>'''
 
 
-def _render_gallery_block(block_body, journal_dates, warnings):
+def _render_gallery_block(block_body, journal_dates, warnings, curated_dir=None):
     """Render a ::gallery ... :: block into a thumbnail grid with lightbox."""
     thumb_dir = DEPLOY_ASSETS_DIR / "thumbs"
     items = []
@@ -332,7 +356,9 @@ def _render_gallery_block(block_body, journal_dates, warnings):
             if cap_match:
                 caption = cap_match.group(1).strip()
                 i += 1
-        items.append(_process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=thumb_dir))
+        html = _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=thumb_dir, curated_dir=curated_dir)
+        if html is not None:
+            items.append(html)
         i += 1
 
     if not items:
@@ -340,14 +366,14 @@ def _render_gallery_block(block_body, journal_dates, warnings):
     return '\n'.join(['<div class="gallery-grid">'] + items + ['</div>'])
 
 
-def replace_image_references(content, journal_dates, warnings):
+def replace_image_references(content, journal_dates, warnings, curated_dir=None):
     """Replace Obsidian ![[path]] with processed <figure> HTML and gallery blocks."""
     photo_count_today = 0
     last_date = None
     day_key = journal_dates[0] if journal_dates else "unknown"
 
     def gallery_repl(m):
-        return _render_gallery_block(m.group(1), journal_dates, warnings)
+        return _render_gallery_block(m.group(1), journal_dates, warnings, curated_dir=curated_dir)
 
     content = GALLERY_FENCE.sub(gallery_repl, content)
 
@@ -364,7 +390,9 @@ def replace_image_references(content, journal_dates, warnings):
         photo_count_today += 1
         is_full = ' full-width' if photo_count_today == 1 else ''
 
-        figure_html = _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=None)
+        figure_html = _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=None, curated_dir=curated_dir)
+        if figure_html is None:
+            return ''
         # Inject full-width class into the first photo of each entry
         if 'class="photo"' in figure_html and is_full:
             figure_html = figure_html.replace('class="photo"', f'class="photo{is_full}"')
@@ -385,8 +413,14 @@ def parse_journal_file(path):
     journal_dates = parse_date_from_journal(content)
     warnings = []
 
+    # Determine curated media folder for this journal entry
+    journal_num_match = re.search(r'Journal\s+(\d+)', path.name)
+    journal_num = int(journal_num_match.group(1)) if journal_num_match else None
+    folder_name = JOURNAL_MEDIA_FOLDERS.get(journal_num)
+    curated_dir = CURATED_MEDIA_DIR / folder_name if folder_name else None
+
     # Convert Obsidian syntax
-    content = replace_image_references(content, journal_dates, warnings)
+    content = replace_image_references(content, journal_dates, warnings, curated_dir=curated_dir)
     content = convert_obsidian_callouts(content)
     content = convert_wikilinks(content)
 
