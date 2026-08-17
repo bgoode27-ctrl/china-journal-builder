@@ -6,7 +6,7 @@
     <title>China Trip 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         @page {
             size: A4;
@@ -22,12 +22,14 @@
             --cinnabar: #B92B27;
             --imperial-red: #C23B2B;
             --gold: #C8A04D;
-            --parchment: #F9F3E8;
+            --gold-light: #e0d4b8;
+            --parchment: #faf6ee;
+            --paper: #fffef9;
             --ink: #2B2B2B;
             --ink-light: #5A4D41;
             --bamboo: #7A8B4A;
             --jade: #3E8E7E;
-            --shadow: rgba(43, 43, 43, 0.12);
+            --shadow: rgba(43, 43, 43, 0.10);
         }
 
         * {
@@ -35,13 +37,15 @@
         }
 
         body {
-            font-family: 'Noto Serif SC', Georgia, 'Times New Roman', serif;
-            line-height: 1.75;
+            font-family: 'Noto Serif SC', 'Source Sans 3', Georgia, serif;
+            font-weight: 400;
+            line-height: 1.85;
             color: var(--ink);
-            background: var(--parchment) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L32 5L37 3L35 8L40 10L35 12L37 17L32 15L30 20L28 15L23 17L25 12L20 10L25 8L23 3L28 5Z' fill='%23c8a04d' fill-opacity='0.05'/%3E%3C/svg%3E");
-            max-width: 900px;
+            background: var(--parchment)
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0L43 6L49 4L46 10L52 12L46 14L49 20L43 18L40 24L37 18L31 20L34 14L28 12L34 10L31 4L37 6Z' fill='%23c8a04d' fill-opacity='0.03'/%3E%3C/svg%3E");
+            max-width: 820px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 60px 32px 80px;
         }
 
         /* Password overlay */
@@ -86,8 +90,10 @@
             margin: 24px 0 12px 0;
             font-size: 2em;
             border-bottom: none;
-            font-family: 'Ma Shan Zheng', cursive;
-            letter-spacing: 1px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.01em;
         }
         .login-box p {
             color: var(--ink-light);
@@ -101,10 +107,10 @@
             border: 2px solid var(--gold);
             border-radius: 4px;
             font-size: 1.05em;
-            font-family: 'Noto Sans SC', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
             margin-bottom: 16px;
             box-sizing: border-box;
-            background: #fffdf7;
+            background: var(--paper);
         }
         .login-box input:focus {
             outline: none;
@@ -118,7 +124,7 @@
             border: none;
             border-radius: 4px;
             font-size: 1.15em;
-            font-family: 'Noto Serif SC', serif;
+            font-family: 'Playfair Display', serif;
             cursor: pointer;
             transition: background 0.25s, transform 0.1s;
             box-shadow: 0 4px 10px rgba(185,43,39,0.3);
@@ -144,22 +150,25 @@
             padding: 48px 24px 36px;
             margin-bottom: 36px;
             border-bottom: 4px double var(--gold);
-            background: linear-gradient(180deg, #fffdf7 0%, var(--parchment) 100%);
+            background: linear-gradient(180deg, var(--paper) 0%, var(--parchment) 100%);
             border-radius: 8px;
             box-shadow: 0 6px 20px var(--shadow);
         }
         .journal-header h1 {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 3.2em;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 3em;
             color: var(--cinnabar);
             margin: 0 0 12px 0;
             border-bottom: none;
-            text-shadow: 2px 2px 0 rgba(200,160,77,0.2);
+            letter-spacing: 0.02em;
         }
         .journal-header .subtitle {
             font-size: 1.2em;
             color: var(--ink-light);
             letter-spacing: 2px;
+            font-style: italic;
         }
         .journal-header .seal {
             display: inline-block;
@@ -175,125 +184,196 @@
 
         /* Entry sections */
         .journal-entry {
-            background: #fffdf7;
-            padding: 32px;
-            margin-bottom: 32px;
-            border-left: 6px solid var(--cinnabar);
-            border-radius: 6px;
-            box-shadow: 0 4px 16px var(--shadow);
+            background: var(--paper);
+            padding: 48px 40px;
+            margin-bottom: 48px;
+            border: 1px solid var(--gold-light);
+            border-radius: 4px;
+            box-shadow: 0 4px 20px var(--shadow);
             page-break-before: always;
         }
         .journal-entry:first-of-type {
             page-break-before: avoid;
         }
 
+        /* Journal title */
         .journal-title {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 2.1em;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 2.6em;
             color: var(--cinnabar);
             margin: 0 0 14px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--gold);
+            line-height: 1.2;
+            letter-spacing: 0.01em;
         }
 
+        /* Meta bar */
         .journal-meta {
             display: flex;
-            gap: 1.2em;
+            gap: 20px;
             flex-wrap: wrap;
-            padding: 12px 16px;
-            margin: 0 0 24px 0;
-            background: #f3ecdd;
-            border-radius: 6px;
-            border-left: 4px solid var(--gold);
-            font-size: 0.9em;
+            font-size: 0.8em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             color: var(--ink-light);
+            margin-bottom: 48px;
+            padding-bottom: 28px;
+            border-bottom: 3px double var(--gold);
         }
 
+        /* Headings */
         h2 {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 1.7em;
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
+            font-size: 1.8em;
+            font-weight: 700;
             color: var(--cinnabar);
-            margin-top: 28px;
-            margin-bottom: 14px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--gold);
+            margin-top: 56px;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
         h3 {
-            font-family: 'Noto Sans SC', sans-serif;
-            font-size: 1.25em;
-            color: var(--bamboo);
-            margin-top: 26px;
-            margin-bottom: 12px;
+            font-family: 'Source Sans 3', 'Noto Sans SC', sans-serif;
+            font-size: 0.88em;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--cinnabar);
+            margin-top: 40px;
+            margin-bottom: 16px;
         }
 
+        /* Body text */
         p {
-            margin: 1em 0;
+            margin: 1.3em 0;
             text-align: justify;
+        }
+
+        /* Drop cap on first paragraph after h3 (screen only — breaks WeasyPrint) */
+        h3 + p:first-of-type::first-letter,
+        h3 + p::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4em;
+            font-weight: 900;
+            float: left;
+            line-height: 0.82;
+            margin: 0.08em 0.1em 0 0;
+            color: var(--cinnabar);
         }
 
         strong {
             color: var(--cinnabar);
-            font-weight: 700;
+            font-weight: 600;
         }
 
-        /* Photo gallery */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+        /* Dividers */
+        hr {
+            border: none;
+            border-top: 1px solid var(--gold);
+            margin: 3em 0;
+            opacity: 0.5;
+        }
+        .journal-divider {
+            border-top: 2px dashed var(--gold);
+            margin: 48px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 28px 0;
+            font-size: 0.92em;
         }
-        .photo {
-            margin: 0;
-            break-inside: avoid;
-            background: #fff;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 3px 10px var(--shadow);
-            border: 1px solid #e8dec8;
-            transition: transform 0.2s, box-shadow 0.2s;
+        th {
+            text-align: left;
+            padding: 14px 16px;
+            font-weight: 600;
+            font-family: 'Source Sans 3', sans-serif;
+            color: #fff;
+            background: var(--cinnabar);
         }
-        .photo:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(43,43,43,0.18);
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gold-light);
         }
-        .photo img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 2px;
-            background: #eee;
+        tr:nth-child(even) { background: rgba(200,160,77,0.06); }
+
+        /* Lists */
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
         }
-        .photo.full-width {
-            grid-column: 1 / -1;
-        }
-        .photo.full-width img {
-            max-height: 520px;
-            object-fit: contain;
-            width: 100%;
+        li {
+            margin: 0.5em 0;
         }
 
-        /* Gallery grid with thumbnails */
+        /* Callouts (pull-quote style) */
+        .callout {
+            margin: 36px 0;
+            padding: 32px 36px;
+            background: var(--paper);
+            border: 1px solid var(--gold);
+            border-radius: 2px;
+            position: relative;
+            box-shadow: 0 2px 16px var(--shadow);
+        }
+        .callout::before {
+            content: '\201C';
+            position: absolute;
+            top: -24px;
+            left: 24px;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .callout-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--cinnabar);
+            margin-bottom: 10px;
+        }
+        .callout-content {
+            font-style: italic;
+            color: var(--ink);
+        }
+        .callout-tip { border-color: var(--jade); }
+        .callout-tip::before { color: var(--jade); }
+        .callout-tip .callout-title { color: var(--jade); }
+        .callout-warning { border-color: #E89A3C; }
+        .callout-warning::before { color: #E89A3C; }
+        .callout-warning .callout-title { color: #E89A3C; }
+        .callout-danger { border-color: var(--cinnabar); }
+        .callout-danger::before { color: var(--cinnabar); }
+        .callout-note { border-color: #5B8DB8; }
+        .callout-note::before { color: #5B8DB8; }
+        .callout-note .callout-title { color: #5B8DB8; }
+        .callout-info { border-color: #8E7DBE; }
+        .callout-info::before { color: #8E7DBE; }
+        .callout-info .callout-title { color: #8E7DBE; }
+
+        /* Gallery */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 18px;
-            margin: 28px 0;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 6px;
+            margin: 48px 0;
         }
         .gallery-item {
             margin: 0;
-            background: #fff;
-            padding: 8px;
-            border-radius: 4px;
-            box-shadow: 0 3px 10px var(--shadow);
-            border: 1px solid #e8dec8;
-            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            border-radius: 3px;
+            background: var(--paper);
+            border: 1px solid var(--gold-light);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
         }
         .gallery-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(43,43,43,0.18);
+            box-shadow: 0 10px 30px rgba(185,43,39,0.15);
+            border-color: var(--gold);
         }
         .gallery-item a {
             display: block;
@@ -301,85 +381,48 @@
         }
         .gallery-item img {
             width: 100%;
-            height: 160px;
+            height: 220px;
             object-fit: cover;
             display: block;
-            border-radius: 2px;
-            background: #eee;
+            filter: sepia(0.06) saturate(1.05);
+            transition: transform 0.4s, filter 0.3s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.04);
+            filter: sepia(0) saturate(1.15);
         }
         .gallery-item figcaption {
+            padding: 10px 14px;
+            font-size: 0.82em;
             font-style: italic;
             color: var(--ink-light);
-            font-size: 0.88em;
             text-align: center;
-            margin-top: 8px;
-            padding-top: 6px;
-            border-top: 1px dashed #d8cbb2;
+            border-top: 1px dashed var(--gold-light);
         }
 
-        /* Lightbox */
-        #lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.92);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        /* Photo (inline, non-gallery) */
+        .photo {
+            margin: 0 0 28px 0;
+            break-inside: avoid;
         }
-        #lightbox.active {
-            display: flex;
-        }
-        #lightbox img {
-            max-width: 92vw;
-            max-height: 82vh;
-            object-fit: contain;
+        .photo img {
+            width: 100%;
+            height: auto;
             border-radius: 4px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 3px 10px var(--shadow);
         }
-        #lightbox-caption {
-            color: #fff;
-            margin-top: 16px;
-            font-size: 1.1em;
-            font-family: 'Noto Serif SC', Georgia, serif;
-            text-align: center;
-            max-width: 80vw;
+        .photo.full-width img {
+            max-height: 520px;
+            object-fit: contain;
         }
-        .lightbox-close,
-        .lightbox-prev,
-        .lightbox-next {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            font-size: 1.4em;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lightbox-close:hover,
-        .lightbox-prev:hover,
-        .lightbox-next:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        .lightbox-close { top: 20px; right: 20px; }
-        .lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
-        .lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
 
         figcaption {
             font-style: italic;
             color: var(--ink-light);
-            font-size: 0.92em;
+            font-size: 0.82em;
             text-align: center;
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px dashed #d8cbb2;
+            padding: 10px 14px;
+            border-top: 1px dashed var(--gold-light);
         }
 
         /* Video */
@@ -387,9 +430,9 @@
             text-align: center;
             margin: 28px 0;
             padding: 18px;
-            background: #f3ecdd;
-            border-radius: 8px;
-            border: 1px solid #e0d4b8;
+            background: var(--paper);
+            border-radius: 4px;
+            border: 1px solid var(--gold-light);
             break-inside: avoid;
         }
         .video-container video {
@@ -404,75 +447,61 @@
             margin-top: 12px;
         }
 
-        /* Callouts */
-        .callout {
-            margin: 24px 0;
-            padding: 18px 22px;
-            border-left: 5px solid var(--gold);
-            background: #f7f0e2;
-            border-radius: 6px;
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.96);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
-        .callout-title {
-            font-weight: 700;
-            color: var(--cinnabar);
-            margin-bottom: 8px;
-            font-family: 'Noto Sans SC', sans-serif;
+        #lightbox.active {
+            display: flex;
         }
-        .callout-content {
+        #lightbox img {
+            max-width: 92vw;
+            max-height: 82vh;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        #lightbox-caption {
+            color: var(--gold);
+            margin-top: 16px;
+            font-family: 'Playfair Display', serif;
             font-style: italic;
-            color: var(--ink-light);
+            font-size: 1em;
+            text-align: center;
+            max-width: 80vw;
         }
-        .callout-tip { border-left-color: var(--jade); background: #eaf6f4; }
-        .callout-warning { border-left-color: #E89A3C; background: #fdf4e8; }
-        .callout-danger { border-left-color: var(--cinnabar); background: #fbeae9; }
-        .callout-note { border-left-color: #5B8DB8; background: #eef5fa; }
-        .callout-info { border-left-color: #8E7DBE; background: #f3f0f9; }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 22px 0;
-            background: #fff;
-            box-shadow: 0 3px 12px var(--shadow);
-            border-radius: 6px;
-            overflow: hidden;
+        .lightbox-close,
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.4em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
         }
-        th {
-            background: var(--cinnabar);
-            color: #fff;
-            padding: 12px 16px;
-            text-align: left;
-            font-weight: 600;
-            font-family: 'Noto Sans SC', sans-serif;
+        .lightbox-close:hover,
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background: var(--gold);
+            color: var(--ink);
         }
-        td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #ede3d1;
-        }
-        tr:last-child td { border-bottom: none; }
-        tr:nth-child(even) { background: #fbf7ee; }
-
-        /* Lists */
-        ul, ol {
-            margin: 1em 0;
-            padding-left: 2em;
-        }
-        li {
-            margin: 0.5em 0;
-        }
-
-        /* Dividers */
-        hr {
-            border: none;
-            border-top: 1px solid var(--gold);
-            margin: 2em 0;
-            opacity: 0.6;
-        }
-        .journal-divider {
-            border-top: 2px dashed var(--gold);
-            margin: 48px 0;
-        }
+        .lightbox-close { top: 20px; right: 20px; }
+        .lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+        .lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
 
         /* Footer */
         .journal-footer {
@@ -482,24 +511,33 @@
             color: var(--ink-light);
             font-size: 0.9em;
             border-top: 2px solid var(--gold);
+            font-style: italic;
         }
 
         @media print {
-            body { padding: 0; background: #fff; }
+            body { padding: 0; background: #fff; max-width: none; }
             .login-container { display: none; }
             #journal-content { display: block; }
-            .journal-entry { box-shadow: none; }
-            .photo:hover { transform: none; }
+            .journal-entry { box-shadow: none; border: none; }
+            .gallery-item:hover { transform: none; }
+            .gallery-item img { filter: none; }
+            /* Disable drop cap float for WeasyPrint compatibility */
+            h3 + p::first-letter {
+                float: none;
+                font-size: inherit;
+                font-weight: inherit;
+                margin: 0;
+            }
         }
 
         @media (max-width: 600px) {
-            body { padding: 12px; }
-            .journal-entry { padding: 18px; }
+            body { padding: 24px 16px 60px; }
+            .journal-entry { padding: 24px 20px; }
             .journal-header h1 { font-size: 2.2em; }
-            .journal-title { font-size: 1.6em; }
-            .photo-grid { grid-template-columns: 1fr; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .gallery-item img { height: 120px; }
+            .journal-title { font-size: 2em; }
+            h2 { font-size: 1.4em; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+            .gallery-item img { height: 140px; }
             .lightbox-prev, .lightbox-next { width: 38px; height: 38px; font-size: 1.1em; }
         }
     </style>
@@ -556,6 +594,14 @@ May 12th we met up at 2501 East Pearson Street, where I currently reside. We got
 I was in the restroom shortly before boarding and I found a wallet sitting there full of credit cards, cash, and a retired military ID. I grabbed it, and ran out looking for the person, thinking, "oh my gosh, this would be horrible!" So I looked everywhere and could not find the person on the ID card. I tried to give the wallet to some airport security people that were there, but they did not want it. They wouldn't take it from me. Then I went to an emergency phone booth to try to page the owner and they wouldn't do it. They said "no, we're not going to do that for you", so then I thought "gosh, what do I do with this wallet and all these credit cards" and it's nearly time for us to board the plane. Lois was thinking, "I hope we don't miss our flight". Then I had the suggestion from the person on the paging phone to take it to the ticket counter and so that's what I did. I took it to the airline boarding counter and told them I found it. Thankfully they paged in the waiting area but nobody came forward. The agents at the counter took the wallet and presumably gave it to lost and found.</p>
 <p>Our 15-hour flight crossed the international date line. We attempted to sleep as much as possible on the plane. Our plane crossed over Seattle, Tokyo, and Taipei, Taiwan, before landing in Hong Kong.</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -581,14 +627,6 @@ I was in the restroom shortly before boarding and I found a wallet sitting there
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -632,6 +670,14 @@ Our first stop was the Kowloon Park behind the hotel which was full of beautiful
 <p>It was then time for lunch at the Jardine Street area market. We found a lunch place that served dumplings. We ate a variety of food, such as a shrimp dumpling soup, a beef bun, and a few other items. The steamed buns were light and fluffy. Our server was abrupt and somewhat put-out that our translator app was not cued up quickly enough. We followed her recommendation as to what we should order, but she passed the order pad to Bruce to fill out. It all turned out well enough. After our lunch it began to rain, so we took the subway back to Kowloon Island and our hotel. Once we checked in, because it was such a hot and humid day, we took showers and rested up. We were planning to go out again, but Anneliese felt sick so we had to go back and rest for the night. Bruce did venture out to bring take-out to the room from Jollibee; a long walk to find some food for Lois and Anneliese. The city comes alive at night.</p>
 <p>The first night in Hong Kong, Bruce did not sleep very well, but Anneliese and Lois slept very well this first night. (I think Bruce was a little concerned about making the train early the next morning.)</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -656,14 +702,6 @@ Our first stop was the Kowloon Park behind the hotel which was full of beautiful
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -868,6 +906,14 @@ yeah, so once we were on the train and we were heading towards Chongqing, we rea
 <p>Anneliese 3:58<br />
 Once we got to Chongqing. It was about 6 o'clock, 6:30 in the evening, and it was a lot cooler than when we got on the train in Hong Kong, and there was a mass amount of people. Many trains arrived at the Chongqing train station the same time we did, because we weren't quite sure how to get to the hotel and how to exit. We kind of had to follow people in front of us and how to exit the train station to enter the other area where you can buy a subway ticket or go to local transportation, which is Uber, but they call it DD, and in China, or a taxi. Luckily for us, because we were having trouble to get through the first point where you have to exit for your train travel to mark that you exited the train. There was a US citizen in front of us, and we noticed he had to move over to a different section to use his passport, and so we followed him, and we were able to go through that section. Once we went through that section, we had to figure out how to ride the subway system, because when we purchased the train ticket from the last recording, which is called the Octopus Pass, we thought that we could use it in mainland China, but unfortunately we were not able to, and we misunderstood and didn't buy the pass that would be allowed for all different train subway systems throughout China, because of that and the language barrier, it took us quite a while to be able to figure out our options for transportation, once we were, we decided it was too late to try and do the 45 minute commute from the subway all the way to the hotel, because we would also have to walk, and we weren't familiar with the area quite yet. We decided to try and get a taxi using the app Didi, which is similar to Uber, but the app didn't work, and after 30 minutes of negotiating with people and figuring out what would be the very best, the easiest solution for the time being was to use the local taxi. The taxi took us from the train station all the way to our hotel, which was located in the modern tourist area, which is the downtown area of Chongqing, which was very convenient because it was near a lot of the sites that we were going to see while we were there. Once we arrived there, our taxi driver was very pleasant. He ensured that we got to our hotel safely, was very patient with us, and understood our needs when we came to our hotel. And we checked into our hotel, got to our room, and were pleasantly surprised by the look of the room, it was a two bedroom, one bathroom apartment with a beautiful view of the Chongqing city, but by that point it was about 9o'clock 830 at night, and we were pretty tired, and things were about to close for the night, so we decided since we haven't gone to China to McDonald's yet in China that we would get McDonald's in the Chongqing area. We,</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -893,14 +939,6 @@ Once we got to Chongqing. It was about 6 o'clock, 6:30 in the evening, and it wa
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -1102,6 +1140,14 @@ and I thought it was going to be a drum show, but I was pleasantly surprised it 
 <p>Unknown 12:40<br />
 I.</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -1127,14 +1173,6 @@ I.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -1495,6 +1533,14 @@ Once we got up there, it was perfect timing, because it was about to be sunset, 
 <p>Speaker 3 7:40<br />
 forgot a.</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -1519,14 +1565,6 @@ forgot a.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -1825,6 +1863,14 @@ Ate at the place, found some ice cream, and then decided to return back for the 
 <p>Unknown 10:12<br />
 My mom ordered some noodle soup, and then beef noodle soup, and my dad ordered some crunchy beef noodles that were good, yeah, they were good, but didn't realize they were crunchy. The experience overall was what was needed at the moment, just some dinner and a sit-down place, and mom thought I didn't like the food, so she was, and she thought, because I was confused about what was ordered, she thought I was trying to switch her food with mine, and she's still to this day hasn't gotten over that,</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -1850,14 +1896,6 @@ My mom ordered some noodle soup, and then beef noodle soup, and my dad ordered s
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -1968,6 +2006,14 @@ let's stop right there.</p>
 <p>Unknown 19:08<br />
 Once we were finished with the dinner, we were pretty tired, so we headed back to the hotel, but the hotel actually had this place similar to a 711 called FamilyMart and we stopped in there, ate some dinner, I got some water, and then headed back up to the room and snacks and ended our day.</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -1992,14 +2038,6 @@ Once we were finished with the dinner, we were pretty tired, so we headed back t
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -2193,6 +2231,14 @@ Oh, that's right, we didn't have much. We went to Five Guys.</p>
 Yes, and at Five Guys, we had a big hamburger and lots of fries, and we got really full, and it was wonderful.</p>
 <p>and we, Bruce, ran back, and then we headed as quickly as we could back to the East Nanjing Station, so we could head home, we with just a small stop to get some ice cream along the way, which turned out to be not very good ice cream. So back again in the East Nanjing Road metro, we took back to Yongling Road, and then we walked back to the FamilyMart and got some ice cream and headed back to our room to sleep. One of the concerns we had was getting being able to get our Didi driver, because it was a long drive early in the morning, 5:30 in the morning, to back to the catch our flight to Taipei the next morning, but thankfully Lois was able to get that working on her phone earlier in the day before we left, and we had it all scheduled so that early in the morning the next morning our Didi driver would be there to pick us up, and we would head to the airport to go to Taipei.</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -2217,14 +2263,6 @@ Yes, and at Five Guys, we had a big hamburger and lots of fries, and we got real
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -2412,6 +2450,14 @@ Do you guys want to add anything? I forgot.</p>
 <p>Unknown 23:10<br />
 No.</p>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -2436,14 +2482,6 @@ No.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
@@ -2587,6 +2625,14 @@ I.</p>
 <p><em>Missing media: IMG_20260509_180703_504.jpg</em></p>
 </div>
 <hr />
+<hr />
+<h3>📜 20 Years Ago</h3>
+<div class="callout callout-note">
+<div class="callout-title">Reflection</div>
+<div class="callout-content">
+<p><em>Add your reflection here about the trip 20 years ago to adopt Anneliese.</em></p>
+</div></div>
+
 <h3>⭐ Highlight of the Day</h3>
 <div class="callout callout-tip">
 <div class="callout-title">Best Moment</div>
@@ -2611,14 +2657,6 @@ I.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Steps walked</td>
-<td></td>
-</tr>
-<tr>
-<td>Money spent</td>
-<td></td>
-</tr>
 <tr>
 <td>Meals eaten</td>
 <td></td>
