@@ -49,7 +49,7 @@ SKIP_FILES = {"Journal Entry Template 3.md"}
 PASSWORD = "fubaoshu"
 MAX_PHOTO_WIDTH = 1600
 JPEG_QUALITY = 80
-DEPLOY_VIDEOS = False  # Vercel deploys are too large with full-size videos
+DEPLOY_VIDEOS = True  # Vercel deploys videos as native <video> players
 
 
 def days_within(d1, d2, tolerance=1):
@@ -298,10 +298,24 @@ def _process_inline_image(raw_ref, caption, journal_dates, warnings, thumb_dir=N
         if not DEPLOY_VIDEOS:
             warnings.append(f"Video skipped (not deployed): {filename}")
             return None
-        deploy_name = filename
+        deploy_name = Path(filename).stem + ".mp4"
         deploy_path = DEPLOY_ASSETS_DIR / deploy_name
         deploy_path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src_path, deploy_path)
+        # Compress video to H.264 720p ~ 1.5 Mbps for web deployment
+        import subprocess
+        ffmpeg_cmd = [
+            'ffmpeg', '-y', '-i', str(src_path),
+            '-vf', 'scale=-2:720',
+            '-c:v', 'libx264', '-preset', 'medium', '-crf', '28',
+            '-c:a', 'aac', '-b:a', '128k',
+            '-movflags', '+faststart',
+            str(deploy_path)
+        ]
+        try:
+            subprocess.run(ffmpeg_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception as e:
+            warnings.append(f"Video compression failed for {filename}: {e}. Copying original.")
+            shutil.copy2(src_path, deploy_path)
         rel_path = f"assets/{deploy_name}"
         cap_html = f'<p class="video-note">{caption}</p>' if caption else ""
         return f'''<div class="video-container">

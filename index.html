@@ -355,6 +355,29 @@
         .callout-info::before { color: #8E7DBE; }
         .callout-info .callout-title { color: #8E7DBE; }
 
+        /* Video player */
+        .video-container {
+            margin: 36px 0;
+            text-align: center;
+            background: var(--paper);
+            border: 1px solid var(--gold-light);
+            padding: 16px;
+            border-radius: 3px;
+        }
+        .video-container video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 3px;
+        }
+        .video-note {
+            font-style: italic;
+            color: var(--ink);
+            margin-top: 12px;
+            font-size: 0.92em;
+        }
+
         /* Gallery */
         .gallery-grid {
             display: grid;
@@ -626,25 +649,6 @@ I was in the restroom shortly before boarding and I found a wallet sitting there
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 </article>
 <hr class="journal-divider">
 <article class="journal-entry">
@@ -709,25 +713,6 @@ Our first stop was the Kowloon Park behind the hotel which was full of beautiful
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1002.jpg" data-lightbox="gallery" data-caption="">
@@ -924,25 +909,6 @@ Once we got to Chongqing. It was about 6 o'clock, 6:30 in the evening, and it wa
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_0918.jpg" data-lightbox="gallery" data-caption="">
@@ -1070,7 +1036,7 @@ Once we got to Chongqing. It was about 6 o'clock, 6:30 in the evening, and it wa
 <article class="journal-entry">
 <h1 class="journal-title">Journal 4 — Fuling</h1>
 <div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-16</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
-<div style="background:#fbeae9;border-left:4px solid #B92B27;padding:12px 16px;margin:16px 0;border-radius:4px;"><strong>⚠️ Image warnings:</strong><ul><li>Video skipped (not deployed): VID_20260516_203300.mp4</li><li>Video skipped (not deployed): VID_20260516_203408.mp4</li></ul></div>
+
 <h2>🗓️ Day 4 — Fuling</h2>
 <p><strong>Date</strong>: 2026-05-16 (Friday)</p>
 <p><strong>Weather</strong>: Chongqing/Fuling: 26°C / 19°C, overcast, humid (~80%)</p>
@@ -1142,25 +1108,6 @@ I.</p>
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1041.jpg" data-lightbox="gallery" data-caption="">
@@ -1450,13 +1397,27 @@ I.</p>
     </a>
 
 </figure>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260516_203300.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260516_203408.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
 </div>
 </article>
 <hr class="journal-divider">
 <article class="journal-entry">
 <h1 class="journal-title">Journal 5 — Chongqing</h1>
 <div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-17</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
-<div style="background:#fbeae9;border-left:4px solid #B92B27;padding:12px 16px;margin:16px 0;border-radius:4px;"><strong>⚠️ Image warnings:</strong><ul><li>Video skipped (not deployed): VID_20260517_125246.mp4</li><li>Video skipped (not deployed): VID_20260517_150001.mp4</li><li>Video skipped (not deployed): VID_20260517_150120.mp4</li><li>Video skipped (not deployed): VID_20260517_193437.mp4</li><li>Video skipped (not deployed): VID_20260517_193459.mp4</li><li>Video skipped (not deployed): VID_20260517_194847.mp4</li><li>Video skipped (not deployed): VID_20260517_211002.mp4</li></ul></div>
+
 <h2>🗓️ Day 5 — Chongqing</h2>
 <p><strong>Date</strong>: 2026-05-17 (Saturday)</p>
 <p><strong>Weather</strong>: Chongqing: 30°C / 21°C, partly cloudy, humid (~70%)</p>
@@ -1524,25 +1485,6 @@ forgot a.</p>
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1172.jpg" data-lightbox="gallery" data-caption="">
@@ -1766,6 +1708,55 @@ forgot a.</p>
     </a>
 
 </figure>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_125246.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_150001.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_150120.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_193437.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_193459.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_194847.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260517_211002.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
 </div>
 </article>
 <hr class="journal-divider">
@@ -1851,25 +1842,6 @@ My mom ordered some noodle soup, and then beef noodle soup, and my dad ordered s
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1355.jpg" data-lightbox="gallery" data-caption="">
@@ -1925,7 +1897,7 @@ My mom ordered some noodle soup, and then beef noodle soup, and my dad ordered s
 <article class="journal-entry">
 <h1 class="journal-title">Journal 7 — Shanghai</h1>
 <div class="journal-meta"><span class="meta-item">📅 Created: 2026-06-02</span><span class="meta-item">🔄 Updated: 2026-06-03</span><span class="meta-item">📍 Date: 2026-05-19</span><span class="meta-item">🏷️ [china-trip-2026]</span></div>
-<div style="background:#fbeae9;border-left:4px solid #B92B27;padding:12px 16px;margin:16px 0;border-radius:4px;"><strong>⚠️ Image warnings:</strong><ul><li>Video skipped (not deployed): VID_20260519_130508.mp4</li><li>Video skipped (not deployed): VID_20260519_155655.mp4</li><li>Video skipped (not deployed): VID_20260519_163304.mp4</li></ul></div>
+
 <h2>🗓️ Day 7 — Shanghai</h2>
 <p><strong>Date</strong>: 2026-05-19 (Monday)</p>
 <p><strong>Weather</strong>: Shanghai: 26°C / 18°C, partly cloudy with light afternoon sprinkles</p>
@@ -2001,25 +1973,6 @@ Once we were finished with the dinner, we were pretty tired, so we headed back t
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1390.jpg" data-lightbox="gallery" data-caption="">
@@ -2171,6 +2124,27 @@ Once we were finished with the dinner, we were pretty tired, so we headed back t
     </a>
 
 </figure>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260519_130508.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260519_155655.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
+<div class="video-container">
+    <video controls preload="metadata">
+        <source src="assets/VID_20260519_163304.mp4" type="video/mp4">
+        Your browser does not support video.
+    </video>
+
+</div>
 </div>
 </article>
 <hr class="journal-divider">
@@ -2234,25 +2208,6 @@ Yes, and at Five Guys, we had a big hamburger and lots of fries, and we got real
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1519.jpg" data-lightbox="gallery" data-caption="">
@@ -2461,25 +2416,6 @@ No.</p>
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <div class="gallery-grid">
 <figure class="gallery-item">
     <a href="assets/IMG_1707.jpg" data-lightbox="gallery" data-caption="">
@@ -2632,25 +2568,6 @@ I.</p>
 <li>China Trip 2026 Overview</li>
 </ul>
 <hr />
-<h3>📊 Quick Stats</h3>
-<table>
-<thead>
-<tr>
-<th>Stat</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Meals eaten</td>
-<td></td>
-</tr>
-<tr>
-<td>Photos taken</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 </article>
 
         <footer class="journal-footer">
